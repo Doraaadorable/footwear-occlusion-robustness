@@ -20,7 +20,7 @@ The three blood-trained ResNet variants each classified all 64 test images corre
 These are exploratory results from a small, previously examined test population. Perfect scores do not demonstrate tread-specific learning, equivalence between methods, or reliability on new collection conditions. See [limitations](docs/LIMITATIONS.md).
 
 ## Repository and private reproduction bundle
-This is the public code repository, not the self-contained course submission. Source and derivative images, model weights, review archives, private manifests and image-bearing outputs are intentionally absent while redistribution permissions are unresolved. Public code alone cannot reproduce the numerical results without the private artifacts. No missing images are downloaded automatically.
+This is the public code repository, not the self-contained course submission. Source and derivative images, model weights, review archives, private manifests and image-bearing outputs are not included in the current code-only release. The author supplied the ShoeCase dataset record’s Licence field as CC BY 4.0; see [data provenance](docs/DATA_PROVENANCE.md). Public code alone cannot reproduce the numerical results without the private artifacts. No missing images are downloaded automatically.
 
 1. Install `requirements.txt` in a compatible Python environment. GPU is recommended for optional fresh training; default execution reuses saved formal models.
 2. Obtain the private reproduction bundle through an authorized channel. Its required layout is documented in [DATA_ACCESS.md](docs/DATA_ACCESS.md).
@@ -31,7 +31,7 @@ The optional retraining entry point is implemented, but the revised bundle adapt
 
 ## Status
 - Completed: original GPU experiments, private portable-bundle assembly and independent-directory default reproduction.
-- Pending: dataset redistribution-license verification, safer retraining-log handling, real-data validation of the revised retraining adapter.
+- Pending: safer retraining-log handling, real-data validation of the revised retraining adapter.
 - Not implemented: a new blood occlusion-strength scan, unfreezing comparison or Grad-CAM study.
 
 ## Attribution and AI assistance
