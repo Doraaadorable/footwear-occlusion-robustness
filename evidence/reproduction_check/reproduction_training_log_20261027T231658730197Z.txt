@@ -1,0 +1,124 @@
+Reproduction check; not used for model selection or reported results.
+UTC start: 2026-10-27T23:16:58.734835+00:00
+Python 3.13.16 | torch 2.11.0+cu130 | device Tesla T4
+Device: cuda | training: 180 | validation: 64 | test not evaluated
+Training: rgb lr= 0.001 seed= 0
+  epoch 1: validation log-loss 0.43847
+  epoch 5: validation log-loss 0.17871
+  epoch 10: validation log-loss 0.10445
+  epoch 15: validation log-loss 0.07879
+  epoch 20: validation log-loss 0.06420
+  epoch 25: validation log-loss 0.04776
+  epoch 30: validation log-loss 0.04862
+  epoch 35: validation log-loss 0.03892
+  epoch 40: validation log-loss 0.03299
+Training: rgb lr= 0.001 seed= 1
+  epoch 1: validation log-loss 0.59678
+  epoch 5: validation log-loss 0.21578
+  epoch 10: validation log-loss 0.13043
+  epoch 15: validation log-loss 0.09550
+  epoch 20: validation log-loss 0.07614
+  epoch 25: validation log-loss 0.05483
+  epoch 30: validation log-loss 0.05219
+  epoch 35: validation log-loss 0.05095
+  epoch 40: validation log-loss 0.04087
+Training: rgb lr= 0.001 seed= 2
+  epoch 1: validation log-loss 0.38590
+  epoch 5: validation log-loss 0.16662
+  epoch 10: validation log-loss 0.09281
+  epoch 15: validation log-loss 0.05920
+  epoch 20: validation log-loss 0.05327
+  epoch 25: validation log-loss 0.04755
+  epoch 30: validation log-loss 0.04851
+  epoch 35: validation log-loss 0.03507
+Training: rgb lr= 0.01 seed= 0
+  epoch 1: validation log-loss 0.07329
+  epoch 5: validation log-loss 0.02514
+  epoch 10: validation log-loss 0.01215
+  epoch 15: validation log-loss 0.04095
+  epoch 20: validation log-loss 0.00555
+  epoch 25: validation log-loss 0.00374
+Training: rgb lr= 0.01 seed= 1
+  epoch 1: validation log-loss 0.14455
+  epoch 5: validation log-loss 0.05766
+  epoch 10: validation log-loss 0.01913
+  epoch 15: validation log-loss 0.01662
+  epoch 20: validation log-loss 0.01585
+  epoch 25: validation log-loss 0.01450
+  epoch 30: validation log-loss 0.00709
+  epoch 35: validation log-loss 0.00720
+  epoch 40: validation log-loss 0.00456
+Training: rgb lr= 0.01 seed= 2
+  epoch 1: validation log-loss 0.06628
+  epoch 5: validation log-loss 0.04297
+  epoch 10: validation log-loss 0.01331
+  epoch 15: validation log-loss 0.00967
+  epoch 20: validation log-loss 0.01038
+Selected learning rate: rgb 0.01
+Training: gray lr= 0.01 seed= 0
+  epoch 1: validation log-loss 0.07114
+  epoch 5: validation log-loss 0.01322
+  epoch 10: validation log-loss 0.00738
+  epoch 15: validation log-loss 0.01171
+  epoch 20: validation log-loss 0.00367
+  epoch 25: validation log-loss 0.00249
+  epoch 30: validation log-loss 0.00748
+  epoch 35: validation log-loss 0.00188
+  epoch 40: validation log-loss 0.00187
+Training: gray lr= 0.01 seed= 1
+  epoch 1: validation log-loss 0.15404
+  epoch 5: validation log-loss 0.02716
+  epoch 10: validation log-loss 0.01659
+  epoch 15: validation log-loss 0.00926
+  epoch 20: validation log-loss 0.00973
+Training: gray lr= 0.01 seed= 2
+  epoch 1: validation log-loss 0.06256
+  epoch 5: validation log-loss 0.01667
+  epoch 10: validation log-loss 0.00863
+  epoch 15: validation log-loss 0.00400
+  epoch 20: validation log-loss 0.00479
+  epoch 25: validation log-loss 0.00745
+  epoch 30: validation log-loss 0.00684
+  epoch 35: validation log-loss 0.00485
+  epoch 40: validation log-loss 0.00105
+Selected learning rate: gray 0.01
+Training: rgb_occlusion lr= 0.01 seed= 0
+  epoch 1: validation log-loss 0.12545
+  epoch 5: validation log-loss 0.03657
+  epoch 10: validation log-loss 0.02015
+  epoch 15: validation log-loss 0.04384
+  epoch 20: validation log-loss 0.01980
+  epoch 25: validation log-loss 0.00545
+  epoch 30: validation log-loss 0.01682
+Training: rgb_occlusion lr= 0.01 seed= 1
+  epoch 1: validation log-loss 0.20764
+  epoch 5: validation log-loss 0.04024
+  epoch 10: validation log-loss 0.11160
+  epoch 15: validation log-loss 0.01429
+  epoch 20: validation log-loss 0.01223
+  epoch 25: validation log-loss 0.00996
+  epoch 30: validation log-loss 0.00516
+  epoch 35: validation log-loss 0.00701
+Training: rgb_occlusion lr= 0.01 seed= 2
+  epoch 1: validation log-loss 0.24285
+  epoch 5: validation log-loss 0.02645
+  epoch 10: validation log-loss 0.02825
+  epoch 15: validation log-loss 0.01167
+  epoch 20: validation log-loss 0.01024
+Selected learning rate: rgb_occlusion 0.01
+TRAINING COMPLETE. Models selected using validation data. Test metrics have not been computed.
+Reproduced vs formal validation loss (consistency check only):
+                      head  formal_val_loss  reproduced_val_loss device
+         gray_lr0.01_seed0         0.001398             0.001398   cuda
+         gray_lr0.01_seed1         0.008727             0.008727   cuda
+         gray_lr0.01_seed2         0.001046             0.001046   cuda
+         rgb_lr0.001_seed0         0.032109             0.032109   cuda
+         rgb_lr0.001_seed1         0.038859             0.038859   cuda
+         rgb_lr0.001_seed2         0.030790             0.030790   cuda
+          rgb_lr0.01_seed0         0.003488             0.003488   cuda
+          rgb_lr0.01_seed1         0.004564             0.004564   cuda
+          rgb_lr0.01_seed2         0.005508             0.005508   cuda
+rgb_occlusion_lr0.01_seed0         0.005453             0.005453   cuda
+rgb_occlusion_lr0.01_seed1         0.004989             0.004989   cuda
+rgb_occlusion_lr0.01_seed2         0.006453             0.006453   cuda
+UTC end: 2026-10-27T23:21:38.614507+00:00

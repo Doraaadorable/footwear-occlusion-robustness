@@ -1,0 +1,7 @@
+Experiment or issue,Observation,Decision and interpretation
+Handiprint: modest masking,CNN remained at 100%,Ceiling limited robustness conclusions; investigated severe masks
+Handiprint: 80% crop-area masks,"Original 53.75%, augmented 95.00%",Archived exploratory benefit; do not equate with real partial contact
+Blood preprocessing pilot,Red localization unreliable,Used reviewed RGB ROIs; preserved disconnected detail
+Handiprint head on blood,"Test BA 71.88%, Nike recall 43.75%",Investigated blood-adapted heads with same pair split
+Blood RGB / gray / occlusion,All test BA 100%,No observed BA advantage; no test-driven architecture search
+Size / suffix / crop controls,"Size 87.5%, suffix 100%, area+brightness 79.69%",Restricted conclusions to this collection-confounded two-style cohort

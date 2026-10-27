@@ -1,0 +1,9 @@
+{
+  "sha256": "0f5d76d9bb2f1e68a15c6cd7b1edcadff40e21bed730dd6f0bfc6dfd2ec26fe5",
+  "val_loss": 0.006452966479657046,
+  "device": "cuda",
+  "torch": "2.11.0+cu130",
+  "variant": "rgb_occlusion",
+  "lr": 0.01,
+  "seed": 2
+}

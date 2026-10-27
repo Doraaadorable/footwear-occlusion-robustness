@@ -1,0 +1,9 @@
+{
+  "status": "completed",
+  "gpu": "Tesla T4",
+  "training_receipts": 12,
+  "executed_code_cells": 14,
+  "protected_artifacts_unchanged": true,
+  "formal_models_replaced": false,
+  "purpose": "Reproduction verification, not result selection."
+}

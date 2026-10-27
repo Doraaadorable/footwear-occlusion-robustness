@@ -1,0 +1,101 @@
+comparison,condition,difference,ci_low,ci_high,split,cohort
+rgb_occlusion minus rgb,All,0.0,0.0,0.0,val,all
+rgb_occlusion minus rgb,Full,0.0,0.0,0.0,val,all
+rgb_occlusion minus rgb,Partial,0.0,0.0,0.0,val,all
+gray minus rgb,All,0.0,0.0,0.0,val,all
+gray minus rgb,Full,0.0,0.0,0.0,val,all
+gray minus rgb,Partial,0.0,0.0,0.0,val,all
+rgb minus hog,All,0.0625,0.0,0.15625,val,all
+rgb minus hog,Full,0.03125,0.0,0.09375,val,all
+rgb minus hog,Partial,0.09375,0.0,0.21875,val,all
+rgb minus legacy_handiprint,All,0.28125,0.171875,0.375,val,all
+rgb minus legacy_handiprint,Full,0.21875,0.125,0.3125,val,all
+rgb minus legacy_handiprint,Partial,0.34375,0.21875,0.4375,val,all
+rgb minus area_brightness,All,0.109375,0.0,0.25,val,all
+rgb minus area_brightness,Full,0.125,0.0,0.28125,val,all
+rgb minus area_brightness,Partial,0.09375,0.0,0.21875,val,all
+hog Partial minus Full,paired conditions,-0.0625,-0.15625,0.0,val,all
+majority Partial minus Full,paired conditions,0.0,0.0,0.0,val,all
+gray Partial minus Full,paired conditions,0.0,0.0,0.0,val,all
+legacy_handiprint Partial minus Full,paired conditions,-0.125,-0.21875,-0.03125,val,all
+rgb Partial minus Full,paired conditions,0.0,0.0,0.0,val,all
+area_brightness Partial minus Full,paired conditions,0.03125,0.0,0.09375,val,all
+rgb_occlusion Partial minus Full,paired conditions,0.0,0.0,0.0,val,all
+collection_suffix Partial minus Full,paired conditions,0.0,0.0,0.0,val,all
+crop_area Partial minus Full,paired conditions,0.0,0.0,0.0,val,all
+categorical_size Partial minus Full,paired conditions,0.0,0.0,0.0,val,all
+rgb_occlusion minus rgb,All,0.0,0.0,0.0,val,exclude_metadata_inferred
+rgb_occlusion minus rgb,Full,0.0,0.0,0.0,val,exclude_metadata_inferred
+rgb_occlusion minus rgb,Partial,0.0,0.0,0.0,val,exclude_metadata_inferred
+gray minus rgb,All,0.0,0.0,0.0,val,exclude_metadata_inferred
+gray minus rgb,Full,0.0,0.0,0.0,val,exclude_metadata_inferred
+gray minus rgb,Partial,0.0,0.0,0.0,val,exclude_metadata_inferred
+rgb minus hog,All,0.0625,0.0,0.15625,val,exclude_metadata_inferred
+rgb minus hog,Full,0.03125,0.0,0.09375,val,exclude_metadata_inferred
+rgb minus hog,Partial,0.09375,0.0,0.21875,val,exclude_metadata_inferred
+rgb minus legacy_handiprint,All,0.28125,0.171875,0.375,val,exclude_metadata_inferred
+rgb minus legacy_handiprint,Full,0.21875,0.125,0.3125,val,exclude_metadata_inferred
+rgb minus legacy_handiprint,Partial,0.34375,0.21875,0.46875,val,exclude_metadata_inferred
+rgb minus area_brightness,All,0.09895833333333326,0.0,0.265625,val,exclude_metadata_inferred
+rgb minus area_brightness,Full,0.11458333333333326,0.0,0.28125,val,exclude_metadata_inferred
+rgb minus area_brightness,Partial,0.08333333333333326,0.0,0.25,val,exclude_metadata_inferred
+hog Partial minus Full,paired conditions,-0.0625,-0.15625,0.0,val,exclude_metadata_inferred
+majority Partial minus Full,paired conditions,0.0,0.0,0.0,val,exclude_metadata_inferred
+gray Partial minus Full,paired conditions,0.0,0.0,0.0,val,exclude_metadata_inferred
+legacy_handiprint Partial minus Full,paired conditions,-0.125,-0.21875,-0.03125,val,exclude_metadata_inferred
+rgb Partial minus Full,paired conditions,0.0,0.0,0.0,val,exclude_metadata_inferred
+area_brightness Partial minus Full,paired conditions,0.03125,0.0,0.09375,val,exclude_metadata_inferred
+rgb_occlusion Partial minus Full,paired conditions,0.0,0.0,0.0,val,exclude_metadata_inferred
+collection_suffix Partial minus Full,paired conditions,0.0,0.0,0.0,val,exclude_metadata_inferred
+crop_area Partial minus Full,paired conditions,0.0,0.0,0.0,val,exclude_metadata_inferred
+categorical_size Partial minus Full,paired conditions,0.0,0.0,0.0,val,exclude_metadata_inferred
+rgb_occlusion minus rgb,All,0.0,0.0,0.0,test,all
+rgb_occlusion minus rgb,Full,0.0,0.0,0.0,test,all
+rgb_occlusion minus rgb,Partial,0.0,0.0,0.0,test,all
+gray minus rgb,All,0.0,0.0,0.0,test,all
+gray minus rgb,Full,0.0,0.0,0.0,test,all
+gray minus rgb,Partial,0.0,0.0,0.0,test,all
+rgb minus hog,All,0.078125,0.03125,0.140625,test,all
+rgb minus hog,Full,0.09375,0.0,0.1875,test,all
+rgb minus hog,Partial,0.0625,0.0,0.15625,test,all
+rgb minus legacy_handiprint,All,0.28125,0.15625,0.40625,test,all
+rgb minus legacy_handiprint,Full,0.25,0.09375,0.40625,test,all
+rgb minus legacy_handiprint,Partial,0.3125,0.15625,0.4375,test,all
+rgb minus area_brightness,All,0.203125,0.109375,0.29726562499999787,test,all
+rgb minus area_brightness,Full,0.21875,0.09375,0.375,test,all
+rgb minus area_brightness,Partial,0.1875,0.0625,0.34375,test,all
+hog Partial minus Full,paired conditions,0.03125,-0.09375,0.15625,test,all
+majority Partial minus Full,paired conditions,0.0,0.0,0.0,test,all
+gray Partial minus Full,paired conditions,0.0,0.0,0.0,test,all
+legacy_handiprint Partial minus Full,paired conditions,-0.0625,-0.25,0.09375,test,all
+rgb Partial minus Full,paired conditions,0.0,0.0,0.0,test,all
+area_brightness Partial minus Full,paired conditions,0.03125,-0.15703124999999996,0.25,test,all
+rgb_occlusion Partial minus Full,paired conditions,0.0,0.0,0.0,test,all
+collection_suffix Partial minus Full,paired conditions,0.0,0.0,0.0,test,all
+crop_area Partial minus Full,paired conditions,0.0,-0.09375,0.09375,test,all
+categorical_size Partial minus Full,paired conditions,0.0,0.0,0.0,test,all
+rgb_occlusion minus rgb,All,0.0,0.0,0.0,test,exclude_metadata_inferred
+rgb_occlusion minus rgb,Full,0.0,0.0,0.0,test,exclude_metadata_inferred
+rgb_occlusion minus rgb,Partial,0.0,0.0,0.0,test,exclude_metadata_inferred
+gray minus rgb,All,0.0,0.0,0.0,test,exclude_metadata_inferred
+gray minus rgb,Full,0.0,0.0,0.0,test,exclude_metadata_inferred
+gray minus rgb,Partial,0.0,0.0,0.0,test,exclude_metadata_inferred
+rgb minus hog,All,0.08928571428571419,0.03571426868438721,0.1607142686843872,test,exclude_metadata_inferred
+rgb minus hog,Full,0.1071428571428572,0.0,0.2142857313156128,test,exclude_metadata_inferred
+rgb minus hog,Partial,0.0714285714285714,0.0,0.1785714328289032,test,exclude_metadata_inferred
+rgb minus legacy_handiprint,All,0.2678571428571428,0.1428571343421936,0.3933035703375911,test,exclude_metadata_inferred
+rgb minus legacy_handiprint,Full,0.25,0.0714285671710968,0.4285714253783226,test,exclude_metadata_inferred
+rgb minus legacy_handiprint,Partial,0.2857142857142857,0.1428571343421936,0.4285714253783226,test,exclude_metadata_inferred
+rgb minus area_brightness,All,0.1785714285714286,0.0714285671710968,0.2857142835855484,test,exclude_metadata_inferred
+rgb minus area_brightness,Full,0.1428571428571428,0.035714298486709595,0.2857142835855484,test,exclude_metadata_inferred
+rgb minus area_brightness,Partial,0.2142857142857143,0.0714285671710968,0.3571428507566452,test,exclude_metadata_inferred
+hog Partial minus Full,paired conditions,0.03571428571428581,-0.1071428656578064,0.1785714328289032,test,exclude_metadata_inferred
+majority Partial minus Full,paired conditions,0.0,0.0,0.0,test,exclude_metadata_inferred
+gray Partial minus Full,paired conditions,0.0,0.0,0.0,test,exclude_metadata_inferred
+legacy_handiprint Partial minus Full,paired conditions,-0.0357142857142857,-0.2142857238650322,0.1428571343421936,test,exclude_metadata_inferred
+rgb Partial minus Full,paired conditions,0.0,0.0,0.0,test,exclude_metadata_inferred
+area_brightness Partial minus Full,paired conditions,-0.07142857142857151,-0.2500000074505806,0.1080357223749112,test,exclude_metadata_inferred
+rgb_occlusion Partial minus Full,paired conditions,0.0,0.0,0.0,test,exclude_metadata_inferred
+collection_suffix Partial minus Full,paired conditions,0.0,0.0,0.0,test,exclude_metadata_inferred
+crop_area Partial minus Full,paired conditions,0.0,-0.1071428656578064,0.1071428656578064,test,exclude_metadata_inferred
+categorical_size Partial minus Full,paired conditions,0.0,0.0,0.0,test,exclude_metadata_inferred
