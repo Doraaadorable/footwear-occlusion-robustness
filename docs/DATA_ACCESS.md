@@ -2,7 +2,7 @@
 
 Dataset record: https://doi.org/10.25380/iastate.22814438.v1
 
-The dataset redistribution license has not yet been independently verified. The associated paper's license is not sufficient evidence of dataset permissions. This repository distributes no source images, derivative crops, third-party weights or review archives.
+The author supplied the ShoeCase dataset record’s Licence field as CC BY 4.0. This permits sharing and adaptations subject to attribution and the other license terms; see DATA_PROVENANCE.md. The current code-only release still includes no images, third-party weights or review archives. Dataset licensing does not assign a license to project code or third-party model weights.
 
 The default notebook requires an authorized private bundle with:
 
