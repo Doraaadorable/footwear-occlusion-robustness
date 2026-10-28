@@ -1,6 +1,6 @@
 # Footwear Occlusion Robustness
 
-A MGSC673 research project examining footwear-pattern classification under occlusion and cross-medium changes, using related ShoeCase Handiprint and synthetic-blood impressions.
+A research project examining footwear-pattern classification under occlusion and cross-medium changes, using related ShoeCase Handiprint and synthetic-blood impressions.
 
 ## Research question
 How does classification behave when impressions are partial or change recording medium, and how much can collection conditions explain apparently strong performance?
