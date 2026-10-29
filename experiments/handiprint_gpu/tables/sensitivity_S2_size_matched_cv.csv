@@ -1,0 +1,4 @@
+subset,n_pairs,pairs_per_class,folds,bal_acc,ci_low,ci_high
+all pairs,77,"{'Adidas': 39, 'Nike': 38}",5,1.0,1.0,1.0
+"shared-size labels only (['10 M', '10.5 M'])",23,"{'Adidas': 15, 'Nike': 8}",5,1.0,1.0,1.0
+class-exclusive size labels,47,"{'Nike': 27, 'Adidas': 20}",5,1.0,1.0,1.0

@@ -10,3 +10,9 @@ matplotlib>=3.8
 python-docx
 reportlab
 ipykernel
+
+# Execution and metadata tools for the Handiprint GPU stage.
+openpyxl>=3.1
+scipy>=1.11
+nbformat>=5.9
+nbclient>=0.9

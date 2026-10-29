@@ -1,0 +1,17 @@
+{
+  "status": "completed",
+  "gpu": "Tesla T4",
+  "device": "cuda",
+  "executed_code_cells": 23,
+  "original_split_sha256": "20f942824a8c45c102837998cf2eb0b9f6d8cc9b243fa1ae87bef3db4f03d11d",
+  "protected_inputs_unchanged": true,
+  "main_and_extension_completed": true,
+  "purpose": "Exploratory GPU reproduction of previously examined data",
+  "cpu_tasks_retained": [
+    "image processing",
+    "augmentation preparation",
+    "HOG/logistic regression",
+    "statistics",
+    "plotting"
+  ]
+}

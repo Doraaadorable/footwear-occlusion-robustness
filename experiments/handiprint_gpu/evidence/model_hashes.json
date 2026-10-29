@@ -1,0 +1,12 @@
+{
+  "results/models/hog_logreg_selected.joblib": "fa11d87638f0960f115030c94c113a0ccb95988d53a076d09a902c9450956547",
+  "results/models/resnet18_head_lr0.01_seed0.pt": "b0aa3d2ff1e1659e0c7bcb94630430df4a3af49c6c5cbb5c3cec1a7119e839ba",
+  "results/models/resnet18_head_lr0.01_seed1.pt": "393f7e8d3e20a17f298bc2a0be82f8fe59b74a115e0512fb2a72bfcec4269e5e",
+  "results/models/resnet18_head_lr0.01_seed2.pt": "234c500ca3b2729538ed248ae3e400b755847ad6a70faeaa5c7d913d0b7f411e",
+  "results/models/resnet18_selected_frozen_backbone_seed0.pt": "8d733fee9eecfba5e298821e1671375a3d8f403ef9960a8c90d305941f3605be",
+  "results/models/resnet18_selected_frozen_backbone_seed1.pt": "fb9996d4dfb478432dd96537340985d610fd6ea875cdae7e1a1e6b93ce4c1b8d",
+  "results/models/resnet18_selected_frozen_backbone_seed2.pt": "cf52806564d1ce2020682a28c1c78e694ab54d0fe36cb2484d67e6b038910f27",
+  "results/extension/occlusion_head_seed0.pt": "0bc43acf54b2eb89f67a76b693ebd41f9bc7a38816a284134feb394b2ec774ff",
+  "results/extension/occlusion_head_seed1.pt": "6932af5cb818e4f7c57869ffd2cf5015beea1afde90f179600ec1d3437efb3a4",
+  "results/extension/occlusion_head_seed2.pt": "d9e820463db3bcd5f3239c019ebb2bb2e8ce75e303be77a577c6a05d56ce21a2"
+}

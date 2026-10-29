@@ -2,6 +2,13 @@
 
 A research project examining footwear-pattern classification under occlusion and cross-medium changes, using related ShoeCase Handiprint and synthetic-blood impressions.
 
+## Research stages
+
+1. **[Handiprint occlusion robustness: completed GPU reproduction](experiments/handiprint_gpu/)** — investigates performance degradation under simulated masking and tests an augmentation response. At 80% crop-area masking, original CNN BA is 53.75% versus 95.00% with occlusion augmentation (+41.25 percentage points; exploratory).
+2. **Synthetic-blood cross-medium extension** — the existing root notebook, tables and evidence investigate transfer and collection confounds. The frozen course submission stays separate and unchanged.
+
+The first stage provides a differentiated robustness curve; the second asks whether strong classification transfers across recording conditions and whether nuisance features offer competing explanations. The stages use related shoe pairs, not independent populations.
+
 ## Research question
 How does classification behave when impressions are partial or change recording medium, and how much can collection conditions explain apparently strong performance?
 
@@ -14,7 +21,7 @@ The blood subset compares two specific shoe styles: Adidas Seeley and Nike Zoom 
 - Both sides, full/partial impressions and related media from a pair stay in one split.
 - Frozen ImageNet ResNet18 with a trained linear head: RGB, grayscale and RGB with occlusion augmentation; seeds 0, 1 and 2. HOG and legacy Handiprint models provide comparisons.
 
-## Recorded findings
+## Blood-stage findings
 
 ![Observed test balanced accuracy](assets/test_balanced_accuracy.svg)
 
@@ -37,7 +44,8 @@ The final bundle adapter was independently exercised on the real prepared data u
 ## Status
 - Completed: original GPU experiments; portable-bundle verification; timestamped stdout/stderr logs; real-data GPU retraining verification; final default execution and package-integrity checks.
 - The final course-submission ZIP is frozen and remains separate from this GitHub presentation.
-- Not implemented: a new blood occlusion-strength scan, unfreezing comparison or Grad-CAM study.
+- Completed additionally: [Handiprint GPU reproduction](experiments/handiprint_gpu/), including severe-mask results and occlusion-augmented heads.
+- Not implemented: a new **blood-stage** occlusion-strength scan, unfreezing comparison or Grad-CAM study.
 
 ## Checks
 

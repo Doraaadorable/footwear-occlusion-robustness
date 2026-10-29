@@ -1,0 +1,41 @@
+{
+  "n_independent_test_pairs": 16,
+  "n_test_images": 32,
+  "pairs_per_split": {
+    "Adidas": {
+      "test": 8,
+      "train": 23,
+      "val": 8
+    },
+    "Nike": {
+      "test": 8,
+      "train": 22,
+      "val": 8
+    }
+  },
+  "cnn_variant": "frozen_backbone",
+  "selected_lr": 0.01,
+  "hog_C": 10.0,
+  "audit_passed": false,
+  "excluded_pairs": [
+    81
+  ],
+  "manifest_sha256": "20f942824a8c45c102837998cf2eb0b9f6d8cc9b243fa1ae87bef3db4f03d11d",
+  "unmodified_balanced_accuracy": {
+    "majority": {
+      "estimate": 0.5,
+      "ci_low": 0.5,
+      "ci_high": 0.5
+    },
+    "hog_logreg": {
+      "estimate": 1.0,
+      "ci_low": 1.0,
+      "ci_high": 1.0
+    },
+    "resnet18_frozen": {
+      "estimate": 1.0,
+      "ci_low": 1.0,
+      "ci_high": 1.0
+    }
+  }
+}

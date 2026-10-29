@@ -1,0 +1,4 @@
+probe,C,val_bal_acc,test_bal_acc,ci_low,ci_high,test_accuracy
+geometry,0.1,0.75,0.9375,0.8125,1.0,0.9375
+scan/session,1.0,0.875,0.78125,0.5625,0.9375,0.78125
+geometry + scan/session,1.0,0.9375,0.96875,0.90625,1.0,0.96875

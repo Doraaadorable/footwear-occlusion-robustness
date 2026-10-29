@@ -1,0 +1,16 @@
+{
+  "archive_sha256": "eacbdcec1872a6b6c6420cc7af86ee74ed152927600dd94a19a3b77994a3bc3d",
+  "package_inventory_entries_verified": 67,
+  "executed_code_cells": 23,
+  "main_selected_model_hashes_verified": true,
+  "extension_metric_rows_recomputed": 10,
+  "paired_bootstrap_intervals_recomputed": 5,
+  "recomputation_input": "saved predictions; no new training or test inference",
+  "public_notebook_outputs_removed": true,
+  "log_path_replacement": {
+    "original_prefix": "<private author Drive project path>",
+    "public_prefix": "<PROJECT_ROOT>"
+  },
+  "original_execution_log_sha256": "404ecd6fbf9eda7fa4e6ca10d25a5544c3d9d3692cbe4062d353beb82d0e8683",
+  "published_execution_log_sha256": "b4985e2a52cf2109edd303abb901efe91c9eb99cd51c5da24d6fe9d948ad0f17"
+}

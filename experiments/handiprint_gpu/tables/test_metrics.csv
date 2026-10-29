@@ -1,0 +1,11 @@
+model,target_fraction,balanced_accuracy,ci_low,ci_high
+original,0.0,1.0,1.0,1.0
+occlusion_augmented,0.0,1.0,1.0,1.0
+original,0.5,0.925,0.8875,0.95625
+occlusion_augmented,0.5,1.0,1.0,1.0
+original,0.6,0.79375,0.74375,0.84375
+occlusion_augmented,0.6,1.0,1.0,1.0
+original,0.7,0.6625,0.6125,0.7125
+occlusion_augmented,0.7,0.9875,0.9625,1.0
+original,0.8,0.5375,0.49375,0.58125
+occlusion_augmented,0.8,0.95,0.90625,0.9875
