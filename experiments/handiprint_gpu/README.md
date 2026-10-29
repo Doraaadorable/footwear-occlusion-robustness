@@ -27,6 +27,12 @@ At 80%, the paired 95% bootstrap interval for the gain is **35.63–46.88 percen
 
 [Metric table](tables/test_metrics.csv) · [Paired differences](tables/paired_model_differences.csv) · [Training curves](tables/cnn_learning_curves.csv) · [Augmented training histories](tables/occlusion_training_history.csv)
 
+## Descriptor controls and severity extrapolation
+
+The existing [S1 probes](tables/sensitivity_S1_shortcut_probes.csv) on **unmodified** test images achieve 93.75% BA for geometry (95% pair interval 81.25–100%), 78.13% for scan/session, and 96.88% combined. Geometry includes crop height, width, aspect ratio and ink fraction; it is not a background-only measurement. These post-test controls show predictive summary information, not which features the augmented CNN uses. They were not evaluated on 80%-masked inputs, so the augmentation gain must not be described as demonstrated tread-specific recognition.
+
+The 80% target exceeds the nominal 10–70% training-mask range. This is limited severity extrapolation within the white-rectangle family, not evidence on new occluder shapes or real scenes. Training and evaluation distributions are not identical. No new model is fitted for this interpretive clarification.
+
 ## Verification and boundaries
 The uploaded result archive has 67 checksummed entries; all verified. The executed notebook completed 23 code cells without saved errors. Model bytes were checked against the main plan lock. All 10 extension metric rows and five paired interval rows were independently recomputed from saved predictions without additional inference. See [verification record](evidence/verification.json) and [execution log](evidence/gpu_execution_log.txt).
 
