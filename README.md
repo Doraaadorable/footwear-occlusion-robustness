@@ -5,7 +5,7 @@ A research project examining footwear-pattern classification under occlusion and
 ## Research stages
 
 1. **[Handiprint occlusion robustness: completed GPU reproduction](experiments/handiprint_gpu/)** — investigates performance degradation under simulated masking and tests an augmentation response. At 80% crop-area masking, original CNN BA is 53.75% versus 95.00% with occlusion augmentation (+41.25 percentage points; exploratory).
-2. **Synthetic-blood cross-medium extension** — the existing root notebook, tables and evidence investigate transfer and collection confounds. The frozen course submission stays separate and unchanged.
+2. **Synthetic-blood cross-medium extension** — the existing root notebook, tables and evidence investigate transfer and collection confounds. The current course submission integrates this stage with the Handiprint GPU stage in one notebook and report; the public repository presents their code and evidence separately.
 
 The first stage provides a differentiated robustness curve; the second asks whether strong classification transfers across recording conditions and whether nuisance features offer competing explanations. The stages use related shoe pairs, not independent populations.
 
@@ -31,7 +31,17 @@ These are exploratory results from a small, previously examined test population.
 
 Detailed numbers: [aggregate result tables](tables/metrics.csv). Experiment history: [decision log](tables/experiment_decision_log.csv).
 
-## Repository and private reproduction bundle
+## Current course-submission version
+
+The current frozen submission is the **reviewed two-stage `MGSC673_Integrated_Submission.zip`**, including the provenance correction and qualified Handiprint descriptor-probe interpretation. It supersedes the earlier blood-only Portable ZIP and the first integrated ZIP.
+
+The reviewed package contains one notebook (33 cells, including 18 sequentially executed code cells), a six-page report body plus one references page, 308 processed blood inputs, recorded Handiprint GPU artifacts, both stages' evidence, and `REVISION_NOTES.json`. Its checksum inventory has 483 entries, plus the inventory file itself. The report preserves the geometry-probe caveat and limited mask-severity extrapolation; original models, predictions and pair splits are unchanged.
+
+The submission notebook is `MGSC673_Integrated_Project/MGSC673_Project.ipynb`; its report is `MGSC673_Integrated_Project/reproduced_analysis/report/MGSC673_Footwear_Report.pdf`. Raw Handiprint TIFFs remain external, with access and identity-verification instructions. The final ZIP is retained privately and is not hosted here. See the [integration and review workflow](docs/INTEGRATED_SUBMISSION.md).
+
+## Public blood-stage notebook and legacy reproduction bundle
+
+The following instructions apply to the earlier blood-stage public notebook and Portable bundle. For the current two-stage submission, follow the integrated package's own README.
 This is the code-and-results repository intended for public presentation, not the self-contained course submission. Source and derivative images, model weights, review archives, private manifests and image-bearing outputs are not included in the current code-and-results release. The author supplied the ShoeCase dataset record’s Licence field as CC BY 4.0; see [data provenance](docs/DATA_PROVENANCE.md). Public code alone cannot reproduce the numerical results without the private artifacts. No missing images are downloaded automatically.
 
 1. Install `requirements.txt` in a compatible Python environment. GPU is recommended for optional fresh training; default execution reuses saved formal models.
@@ -43,7 +53,7 @@ The final bundle adapter was independently exercised on the real prepared data u
 
 ## Status
 - Completed: original GPU experiments; portable-bundle verification; timestamped stdout/stderr logs; real-data GPU retraining verification; final default execution and package-integrity checks.
-- The final course-submission ZIP is frozen and remains separate from this GitHub presentation.
+- The reviewed two-stage Integrated ZIP is the current frozen course submission. Earlier Portable and first-integrated ZIPs are backups, not additional submission versions.
 - Completed additionally: [Handiprint GPU reproduction](experiments/handiprint_gpu/), including severe-mask results and occlusion-augmented heads.
 - Not implemented: a new **blood-stage** occlusion-strength scan, unfreezing comparison or Grad-CAM study.
 
