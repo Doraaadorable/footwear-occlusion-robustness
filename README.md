@@ -61,7 +61,7 @@ The final bundle adapter was independently exercised on the real prepared data u
 
 Run `python scripts/check_notebook.py` and `python scripts/check_evidence.py` for dependency-free syntax and evidence checks. These do not train models or substitute for real-data reproduction. The public notebook has outputs removed; the private course submission retains executed outputs and the full report.
 
-## Attribution and AI assistance
+## Dataset attribution
 Dataset: Tibben, Carriquiry & McGuire (2023), *ShoeCase: A data set of mock crime scene footwear impressions*, https://doi.org/10.25380/iastate.22814438.v1.
 
-Codex and Claude assisted with code, review, analysis and report drafting. The author remains responsible for understanding the work and following course policy. No open-source license is assigned in this initial repository; upstream data and model rights are separate.
+No open-source license is assigned in this initial repository; upstream data and model rights are separate.

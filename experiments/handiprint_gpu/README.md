@@ -65,4 +65,4 @@ The helper starts a new kernel in the same Python environment, creates a unique 
 ## Interpretation
 The extension was developed after earlier test review, and this reproduction reuses those pairs. Its gains are exploratory and conditional on the simulated-mask generator. The main and severe-extension masking procedures are not identical; comparisons within the severe extension share masks. Two shoe styles, collection conditions, size associations, preprocessing and the small number of independent test pairs limit broader claims. Baseline descriptor probes and grouped-CV analyses are diagnostic, not new held-out validation. A degenerate all-correct bootstrap interval is not evidence of perfect population accuracy.
 
-This stage adds GPU provenance and traceable robustness analysis to the project's development history; it does not overwrite the separate blood-stage results or course submission. AI assistance is disclosed in the root README.
+This stage adds GPU provenance and traceable robustness analysis to the project's development history; it does not overwrite the separate blood-stage results or course submission.

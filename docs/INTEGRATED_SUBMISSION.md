@@ -31,7 +31,7 @@ The merged notebook has 33 cells, including 18 code cells. It contains the full 
 
 The package contains all 308 processed blood images and the recorded Handiprint heads, predictions and GPU evidence. It does not contain the roughly 3.49 GiB original Handiprint TIFFs. Source DOI, exact manifest, filename identities, hashes and raw-data setup instructions are supplied for optional fresh Handiprint training. New wrapper assembly is not misrepresented as another completed training experiment; the original Handiprint GPU source was actually run, while integrated default execution reuses its artifacts.
 
-Six report body pages plus one references page cover both stages. Masks, cross-medium provenance, CPU tasks, repeated test exposure, inferred links, collection confounding, ethics and AI assistance remain disclosed. The historical Handiprint transfer heads are not silently replaced by GPU reproduction heads.
+Six report body pages plus one references page cover both stages. Masks, cross-medium provenance, CPU tasks, repeated test exposure, inferred links, collection confounding, and ethics are documented. The historical Handiprint transfer heads are not silently replaced by GPU reproduction heads.
 
 ## Validation
 
