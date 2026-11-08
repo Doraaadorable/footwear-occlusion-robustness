@@ -1,80 +1,49 @@
 # Footwear Occlusion Robustness
 
-**Research focus:** How robust is footwear-impression classification when part of an impression is missing or the recording medium changes—and can collection artifacts explain high scores?
+**Question:** when a footwear impression is partly missing, or recorded in a different medium, does an image classifier still recognise the sole pattern, and how much of its apparent accuracy comes from collection artifacts instead of tread?
 
-This two-stage study uses related [ShoeCase](https://doi.org/10.25380/iastate.22814438.v1) Handiprint and synthetic-blood impressions to examine **occlusion robustness, cross-medium transfer, and shortcut learning**. It compares two specific shoe styles (Adidas Seeley and Nike Zoom Winflo 4); it is **not** a general brand-recognition or forensic-identification system.
+I study this with the public [ShoeCase](https://doi.org/10.25380/iastate.22814438.v1) dataset, comparing two specific shoe styles (Adidas Seeley and Nike Zoom Winflo 4) in clean ink "Handiprint" scans and in synthetic-blood impressions on tile. This is a methods study of evaluation and shortcut learning, **not** a brand-recognition or forensic-identification system.
 
-### Key findings at a glance
+## Key findings
 
-| Investigation | Observed result | Interpretation |
+| Investigation | Result (test set: 16 shoe pairs) | What it does and does not show |
 | --- | --- | --- |
-| **Severe occlusion (Handiprint)** | At 80% crop-area masking, original CNN balanced accuracy: **53.75%**; occlusion-augmented model: **95.00%** (**+41.25 percentage points**) | Exploratory evidence that augmentation improved robustness under the tested synthetic masking setup |
-| **Blood-on-tile classification** | Three blood-trained ResNet18 variants each classified **64/64** held-out images correctly | High performance on this particular, previously examined test set—not evidence of reliable generalization |
-| **Collection-artifact controls** | Collection-suffix baseline: **100%** balanced accuracy; area-and-brightness baseline: **79.69%** | Nuisance information can be predictive; perfect CNN accuracy alone does not establish tread-specific learning |
-| **Cross-medium transfer** | Original Handiprint model on blood impressions: **71.88%** balanced accuracy | A change in recording medium remains an important evaluation challenge |
+| **Severe synthetic occlusion** (Handiprint) | With 80% of the impression box masked, balanced accuracy is **53.75%** for the original CNN and **95.00%** for a CNN trained with occlusion augmentation (gain +41.25 pp, 95% pair-bootstrap CI 35.6–46.9) | Augmentation helps against **the same white-rectangle masks it was trained on**. Whether it helps against other occluders is tested in [occlusion generalisation](experiments/occlusion_generalization/) (results pending). |
+| **Cross-medium transfer** | The Handiprint model scores **71.88%** on blood impressions (Nike recall 43.75%) | A change of recording medium causes a large drop. This is the most informative transfer result in the project. |
+| **Blood-trained models** | RGB, grayscale and occlusion-augmented heads each classify **64/64** test images correctly | Not evidence of tread recognition: see the next row. |
+| **Shortcut controls** | A baseline using only the filename collection suffix scores **100%**; crop geometry alone scores 93.75% on Handiprint; area + brightness scores 79.69% on blood | Collection conditions and shoe shape predict the class, so high accuracy alone cannot be attributed to tread pattern. |
 
-**Main takeaway:** Accuracy is only part of the story. Pair-aware splitting, stress tests, and nuisance-feature baselines are necessary to interpret what a classifier may have learned. These are exploratory results from related shoe pairs with repeated test exposure, not confirmatory forensic evidence.
+All results are exploratory: the test pairs were examined before the occlusion extension was designed.
 
-### Explore the project
+## Approach
 
-- [Handiprint GPU experiment and robustness curve](experiments/handiprint_gpu/)
-- [Blood-stage result figure](assets/test_balanced_accuracy.svg) · [Full metrics](tables/metrics.csv) · [Experiment decision log](tables/experiment_decision_log.csv)
-- [Data access and reproducibility](docs/DATA_ACCESS.md) · [Limitations](docs/LIMITATIONS.md) · [Public verification checks](#public-verification-no-private-data-required)
-- [Integrated course-submission workflow](docs/INTEGRATED_SUBMISSION.md) (private package; not distributed here)
+- **Leakage control.** Data are split by shoe pair, not by image. Both sides of a pair, and all of its full/partial and blood/ink impressions, stay in one split. The same pair split is used for both media, so no test shoe appears in training in either stage. Byte-identical files across splits are rejected.
+- **Models.** Frozen ImageNet ResNet18 with a trained linear head (3 seeds, learning rate chosen on validation loss), compared with a HOG + logistic-regression baseline and a majority baseline.
+- **Uncertainty.** 95% intervals come from a bootstrap that resamples whole shoe pairs within class (2,000 resamples), because left and right impressions of one shoe are not independent.
+- **Shortcut probes.** Simple classifiers on nuisance variables (crop geometry, scan session, shoe size, collection suffix, brightness) estimate how much the label can be predicted without tread information.
 
-### Research stages
+![Blood-stage test balanced accuracy for models and controls](assets/test_balanced_accuracy.svg)
 
-1. **Handiprint occlusion robustness:** completed GPU reproduction, masking-severity evaluation, and an occlusion-augmentation comparison. [Experiment details](experiments/handiprint_gpu/).
-2. **Synthetic-blood cross-medium extension:** frozen-feature ResNet18 variants and comparison baselines, with attention to collection confounds. The public repository separates the stages; the reviewed course submission integrates them.
+## Repository guide
 
-The two stages use **related shoe pairs, not independent populations**.
+| Path | Contents |
+| --- | --- |
+| [`experiments/handiprint_gpu/`](experiments/handiprint_gpu/) | Handiprint stage: preprocessing, pair split, models, severe-occlusion extension, shortcut probes, GPU run evidence |
+| [`experiments/occlusion_generalization/`](experiments/occlusion_generalization/) | Held-out occluder families (blobs, stripes, partial contact, dark and textured patches, fading, noise, blur) for the Handiprint models. Colab notebook ready; not yet run. |
+| [`notebooks/blood_stage.ipynb`](notebooks/blood_stage.ipynb) | Blood-on-tile stage: transfer, blood-trained heads, shortcut controls |
+| [`tables/`](tables/) | Blood-stage metrics, confusion counts, paired differences and the [experiment decision log](tables/experiment_decision_log.csv) |
+| [`evidence/`](evidence/) | Blood-stage GPU retraining receipts |
+| [`docs/`](docs/) | [Data access](docs/DATA_ACCESS.md), [data provenance](docs/DATA_PROVENANCE.md), [limitations](docs/LIMITATIONS.md) |
+| [`tests/`](tests/) | Unit tests for the occlusion families and pair bootstrap |
 
-## Data and experimental design
-- 312 downloaded blood-on-tile images, representing 78 candidate shoe pairs rather than 312 independent shoes.
-- Pair 81 excluded under the original split: 308 eligible images, 77 pairs.
-- Training: 180 images / 45 pairs; validation and test: 64 images / 16 pairs each.
-- Both sides, full/partial impressions and related media from a pair stay in one split.
-- Frozen ImageNet ResNet18 with a trained linear head: RGB, grayscale and RGB with occlusion augmentation; seeds 0, 1 and 2. HOG and legacy Handiprint models provide comparisons.
+## Data
 
-## Blood-stage findings
+- **Handiprint:** 154 images from 77 shoe pairs after excluding pair 81 (unresolved in the image audit). Split: 45 / 16 / 16 pairs.
+- **Blood on tile:** 308 images from the same 77 pairs (180 train, 64 validation, 64 test images). These are related observations, not 308 independent shoes. Seven pair identities are inferred from metadata; results excluding them are in `tables/metrics.csv` (cohort `exclude_metadata_inferred`).
 
-![Observed test balanced accuracy](assets/test_balanced_accuracy.svg)
+Images, model weights and the prepared-input bundle are not in this repository. See [data access](docs/DATA_ACCESS.md) for the source dataset, the expected folder layout and how to run each stage.
 
-The three blood-trained ResNet variants each classified all 64 test images correctly. HOG achieved 92.19% balanced accuracy; the original Handiprint model transferred to blood achieved 71.88%. A collection-suffix baseline also achieved 100%, and an area-plus-brightness baseline achieved 79.69%.
-
-These are exploratory results from a small, previously examined test population. Perfect scores do not demonstrate tread-specific learning, equivalence between methods, or reliability on new collection conditions. See [limitations](docs/LIMITATIONS.md).
-
-Detailed numbers: [aggregate result tables](tables/metrics.csv). Experiment history: [decision log](tables/experiment_decision_log.csv).
-
-## Current course-submission version
-
-The current frozen submission is the **reviewed two-stage `MGSC673_Integrated_Submission.zip`**, including the provenance correction and qualified Handiprint descriptor-probe interpretation. It supersedes the earlier blood-only Portable ZIP and the first integrated ZIP.
-
-The reviewed package contains one notebook (33 cells, including 18 sequentially executed code cells), a six-page report body plus one references page, 308 processed blood inputs, recorded Handiprint GPU artifacts, both stages' evidence, and `REVISION_NOTES.json`. Its checksum inventory has 483 entries, plus the inventory file itself. The report preserves the geometry-probe caveat and limited mask-severity extrapolation; original models, predictions and pair splits are unchanged.
-
-The submission notebook is `MGSC673_Integrated_Project/MGSC673_Project.ipynb`; its report is `MGSC673_Integrated_Project/reproduced_analysis/report/MGSC673_Footwear_Report.pdf`. Raw Handiprint TIFFs remain external, with access and identity-verification instructions. The final ZIP is retained privately and is not hosted here. See the [integration and review workflow](docs/INTEGRATED_SUBMISSION.md).
-
-## Public blood-stage notebook and legacy reproduction bundle
-
-The following instructions apply to the earlier blood-stage public notebook and Portable bundle. For the current two-stage submission, follow the integrated package's own README.
-This is the code-and-results repository intended for public presentation, not the self-contained course submission. Source and derivative images, model weights, review archives, private manifests and image-bearing outputs are not included in the current code-and-results release. The author supplied the ShoeCase dataset record’s Licence field as CC BY 4.0; see [data provenance](docs/DATA_PROVENANCE.md). Public code alone cannot reproduce the numerical results without the private artifacts. No missing images are downloaded automatically.
-
-1. Install `requirements.txt` in a compatible Python environment. GPU is recommended for optional fresh training; default execution reuses saved formal models.
-2. Obtain the private reproduction bundle through an authorized channel. Its required layout is documented in [DATA_ACCESS.md](docs/DATA_ACCESS.md).
-3. Set `FOOTWEAR_ANALYSIS_BUNDLE` to the extracted `MGSC673_Portable_Project` directory before running the notebook. Start Jupyter from the configured environment.
-4. Open `notebooks/MGSC673_Project.ipynb` and run all. Keep the environment variable `FOOTWEAR_RUN_TRAINING` unset for the default mode. A first run can download the approximately 45 MB public ImageNet backbone and verifies its hash.
-
-The final bundle adapter was independently exercised on the real prepared data using a Tesla T4 on 27 October 2026. All 12 fits were freshly trained; the validation losses and model SHA256 values matched the archived formal receipts exactly. The executed run completed 14 code cells. See the [full training log and receipts](evidence/reproduction_check/) and [validation comparison](evidence/reproduction_check/validation_comparison.json). This is a reproducibility check, not a new independent experiment or evidence of generalization across hardware. Fresh fits write separately and do not replace formal models.
-
-## Status
-- Completed: original GPU experiments; portable-bundle verification; timestamped stdout/stderr logs; real-data GPU retraining verification; final default execution and package-integrity checks.
-- The reviewed two-stage Integrated ZIP is the current frozen course submission. Earlier Portable and first-integrated ZIPs are backups, not additional submission versions.
-- Completed additionally: [Handiprint GPU reproduction](experiments/handiprint_gpu/), including severe-mask results and occlusion-augmented heads.
-- Not implemented: a new **blood-stage** occlusion-strength scan, unfreezing comparison or Grad-CAM study.
-
-## Public verification (no private data required)
-
-From the repository root, run the following checks with Python 3. These use standard-library modules only and do **not** require installing the ML dependencies:
+## Checks you can run without the data
 
 ```bash
 python scripts/check_notebook.py
@@ -82,15 +51,25 @@ python scripts/check_evidence.py
 python scripts/check_handiprint_gpu.py
 ```
 
-| Check | What it verifies | What it does not verify |
-| --- | --- | --- |
-| `check_notebook.py` | Public blood-stage notebook code parses and code-cell outputs are cleared | Notebook execution, data availability, or model accuracy |
-| `check_evidence.py` | Published blood-stage training receipts and validation-loss comparison metadata agree | Fresh training, binary checkpoint integrity, or independent test performance |
-| `check_handiprint_gpu.py` | Published Handiprint metadata, paired-difference table arithmetic, and public notebook syntax/output hygiene | Fresh GPU execution, source-data identity, or generalization |
+These standard-library scripts check that the notebooks parse with outputs cleared, and that the published receipts and result tables are internally consistent. They do not retrain models or verify accuracy.
 
-The published receipt checks use assertions over archived records, not cryptographic verification of unavailable model binaries. The private course submission retains executed outputs and the full report. To rerun the underlying experiments, follow [data access](docs/DATA_ACCESS.md) and the [Handiprint GPU stage](experiments/handiprint_gpu/); CUDA and the authorized inputs are required for the latter.
+The occlusion-family code has unit tests on synthetic images (needs `numpy`, `scipy` and `pytest`):
 
-## Dataset attribution
-Dataset: Tibben, Carriquiry & McGuire (2023), *ShoeCase: A data set of mock crime scene footwear impressions*, https://doi.org/10.25380/iastate.22814438.v1.
+```bash
+python -m pytest tests/
+```
 
-No open-source license is assigned in this initial repository; upstream data and model rights are separate.
+## Reproducibility record
+
+- **Handiprint stage:** run end to end on a Tesla T4 (23 code cells). Ten extension metrics and five paired intervals were recomputed from saved predictions. See [the stage README](experiments/handiprint_gpu/).
+- **Blood stage:** on 27 October 2026 all 12 heads were retrained on a Tesla T4. The validation losses and model SHA-256 values matched the saved models exactly ([receipts](evidence/reproduction_check/)). That run used the notebook as of commit `89df652`; later edits removed the report-generation code, simplified input-folder detection and rewrote text cells; the data-locking, training and analysis cells are unchanged.
+
+## Limitations
+
+Two shoe styles; 16 test pairs (8 per class); test pairs viewed before later experiments; synthetic masks that do not reproduce real crime-scene occlusion; collection conditions confounded with class in the blood data. Details: [docs/LIMITATIONS.md](docs/LIMITATIONS.md).
+
+## Dataset citation and license
+
+Tibben, A., Carriquiry, A., & McGuire, M. (2023). *ShoeCase: A data set of mock crime scene footwear impressions*. Iowa State University. https://doi.org/10.25380/iastate.22814438.v1. Dataset license: CC BY 4.0 (see [data provenance](docs/DATA_PROVENANCE.md)).
+
+Code in this repository is released under the [MIT License](LICENSE). The license does not cover the ShoeCase data or third-party model weights.
