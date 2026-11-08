@@ -1,6 +1,6 @@
 # Stage 1: Handiprint occlusion robustness — GPU reproduction
 
-This stage investigates whether footwear-pattern classification degrades under simulated occlusion and whether occlusion-augmented training improves robustness. It is a **real Tesla T4 reproduction** of previously examined data, not a new independent confirmatory experiment. Historical CPU results and the frozen course submission remain unchanged.
+This stage investigates whether footwear-pattern classification degrades under simulated occlusion and whether occlusion-augmented training improves robustness. It is a **Tesla T4 reproduction** of an earlier CPU analysis on previously examined data, not a new confirmatory experiment.
 
 ![Severe occlusion comparison](assets/severe_occlusion.svg)
 
@@ -41,7 +41,7 @@ The uploaded result archive has 67 checksummed entries; all verified. The execut
 The public notebook has outputs cleared to avoid embedding image data and author paths. The original executed notebook, model binaries and full checksum manifest remain in the private result ZIP. Log paths are replaced by `<PROJECT_ROOT>` for publication; hashes of both original and published logs are recorded.
 
 ## Reproduce with authorized source inputs
-The repository does not bundle TIFFs or model binaries. Obtain the ShoeCase Handiprint source data under the [dataset license](../../docs/DATA_PROVENANCE.md), the original `Handiprint_database.xlsx`, and the original manifest from the preserved submission bundle. Never draw a new split to replace the canonical file.
+The repository does not bundle TIFFs or model binaries. Obtain the ShoeCase Handiprint scans and `Handiprint_database.xlsx` under the [dataset license](../../docs/DATA_PROVENANCE.md), plus the canonical split manifest (kept by the author). Never draw a new split to replace the canonical file.
 
 ```
 YOUR_PROJECT/
@@ -60,9 +60,9 @@ pip install -r requirements.txt
 python scripts/run_handiprint_gpu.py --project-root /absolute/path/to/YOUR_PROJECT
 ```
 
-The helper starts a new kernel in the same Python environment, creates a unique output folder, explicitly configures paths, saves outputs on failure, and preserves previous results. It does not download or extract raw data. The helper's orchestration has been checked syntactically; the submitted GPU run used the equivalent Colab launcher, not this new CLI wrapper.
+The helper starts a new kernel in the same Python environment, creates a unique output folder, explicitly configures paths, saves outputs on failure, and preserves previous results. It does not download or extract raw data. The recorded GPU run used an equivalent Colab launcher; this command-line helper has been checked for syntax but not run end to end.
 
 ## Interpretation
-The extension was developed after earlier test review, and this reproduction reuses those pairs. Its gains are exploratory and conditional on the simulated-mask generator. The main and severe-extension masking procedures are not identical; comparisons within the severe extension share masks. Two shoe styles, collection conditions, size associations, preprocessing and the small number of independent test pairs limit broader claims. Baseline descriptor probes and grouped-CV analyses are diagnostic, not new held-out validation. A degenerate all-correct bootstrap interval is not evidence of perfect population accuracy.
+The extension was developed after earlier test review, and this reproduction reuses those pairs. Its gains are exploratory and conditional on the simulated-mask generator: the augmented heads were trained and evaluated with the same white-rectangle rule. [Occlusion generalisation](../occlusion_generalization/) tests held-out occluder families. The main and severe-extension masking procedures are not identical; comparisons within the severe extension share masks. Two shoe styles, collection conditions, size associations, preprocessing and the small number of independent test pairs limit broader claims. Baseline descriptor probes and grouped-CV analyses are diagnostic, not new held-out validation. A degenerate all-correct bootstrap interval is not evidence of perfect population accuracy.
 
-This stage adds GPU provenance and traceable robustness analysis to the project's development history; it does not overwrite the separate blood-stage results or course submission.
+This stage does not modify the separate blood-stage results.

@@ -1,7 +1,10 @@
-# Real-data reproduction evidence
+# Blood-stage retraining evidence
 
-The separate Colab Tesla T4 check freshly trained all 12 fits on the prepared training inputs, selected checkpoints using validation data, and preserved the formal experiment. The training log runs from 23:16:58 to 23:21:38 UTC on 27 October 2026. The check also ran the default analysis, which reused existing predictions; it did not constitute a new independent test experiment.
+On 27 October 2026 all 12 blood-stage fits (RGB at learning rates 0.001 and 0.01, grayscale and RGB + occlusion at 0.01; seeds 0–2) were retrained from the prepared training inputs on a Colab Tesla T4, with checkpoints selected on validation data. The training log runs from 23:16:58 to 23:21:38 UTC. The run then executed the default analysis, which reuses saved predictions, so it is a reproducibility check rather than a new test experiment.
 
-`summary.json` records the runner's checks of code completion and protected artifacts. Receipts and `validation_comparison.json` retain full-precision losses. Reproduced receipt metadata and model SHA256 values match the formal source receipts. The public repository does not contain the corresponding model binaries; these evidence files are not a substitute for those binaries or the complete private submission.
+- `summary.json`: run completion and confirmation that saved artifacts were not modified.
+- `rgb_*.json`, `gray_*.json`, `rgb_occlusion_*.json`: per-fit receipts with full-precision validation loss and model SHA-256.
+- `validation_comparison.json`: reproduced versus saved validation losses (all 12 identical).
+- `execution_log.txt`, `reproduction_training_log_*.txt`: raw logs, kept unedited. They name the notebook file as it was called at the time.
 
-The training cell correctly states that it does not evaluate the test split. Later analysis cells can reuse or reproduce formal test predictions according to the locked evaluation path. Do not interpret the training log as claiming that the whole notebook has never accessed test data.
+The model binaries are not in the repository, so these files document the check; they cannot replace the binaries. The training cell does not evaluate the test split; later analysis cells reuse the saved test predictions.

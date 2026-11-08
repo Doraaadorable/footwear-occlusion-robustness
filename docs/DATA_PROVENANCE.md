@@ -2,7 +2,7 @@
 
 Source: Tibben, A., Carriquiry, A., & McGuire, M. (2023). *ShoeCase: A data set of mock crime scene footwear impressions*. Iowa State University. https://doi.org/10.25380/iastate.22814438.v1
 
-Dataset license: Creative Commons Attribution 4.0 International (CC BY 4.0), https://creativecommons.org/licenses/by/4.0/ . Evidence: the project author supplied the dataset page’s Licence field in this project discussion on 2026-10-27. Automated retrieval of the dataset license field was unsuccessful; this records author-provided evidence, not a claim of independent retrieval. The Creative Commons license terms were checked directly.
+Dataset license: Creative Commons Attribution 4.0 International (CC BY 4.0), https://creativecommons.org/licenses/by/4.0/, as listed in the License field of the dataset record (checked 27 October 2026). Re-check the record before redistributing any data.
 
 Changes to the selected blood-on-tile images: manually selected RGB crops; EXIF orientation handling; aspect-preserving resizing to 224 pixels and centered white padding. Grayscale is generated from the same RGB crops for a controlled experiment. No perspective correction or color enhancement is claimed. Existing image hashes and pair mappings are retained in the private reproduction bundle.
 

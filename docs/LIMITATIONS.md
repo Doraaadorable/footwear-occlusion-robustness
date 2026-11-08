@@ -1,11 +1,15 @@
 # Interpretation and limitations
 
-- Two shoe styles are represented; class is associated with style and collection conditions.
-- Images from the same pair are related observations; reported uncertainty resamples pairs, not independent images.
-- Repeated test exposure and post-test exploration limit confirmatory interpretation.
-- Seven pair identities are inferred from metadata rather than independently verified: 9, 70, 76, 79, 114, 120 and 158.
-- Training crops and externally prepared held-out crops followed different operational workflows.
-- Collection suffix, brightness, crop geometry and substrate can carry class information. A successful nuisance baseline does not prove which features a CNN uses.
-- Perfect observed accuracy and a degenerate empirical bootstrap interval do not imply perfect population performance.
-- Earlier Handiprint severe-occlusion values are archived results, not newly rerun blood experiments. The earlier augmented checkpoint was not available for transfer.
-- The public repository excludes private inputs and therefore cannot reproduce results by itself.
+- **Two shoe styles.** Each class is one style (Adidas Seeley, Nike Zoom Winflo 4), so class is tied to style, shoe size distribution and collection conditions. Nothing here measures general brand recognition or forensic identification.
+- **Small test set.** 16 test pairs (8 per class). One misclassified pair moves balanced accuracy by several points; intervals resample pairs, not images.
+- **Test exposure.** The test pairs were examined before the severe-occlusion extension, the blood-stage models and the shortcut controls were designed. These results are exploratory, not confirmatory.
+- **Augmentation benefit is occluder-specific.** The occlusion-augmented Handiprint heads were trained and evaluated with the same white-rectangle generator, where they gain +41.25 pp at 80%. On [held-out families](../experiments/occlusion_generalization/) the gain disappears for irregular blobs and stripes, is partial for textured or dark rectangles, and reverses under heavy Gaussian noise (−35.0 pp). Do not describe it as general occlusion robustness.
+- **Mask size is not tread removed.** Mask percentages are the share of the impression box covered. At the same nominal level, rectangles remove more ink than blobs, stripes or partial-contact masks (about 91% against 80–83% at the 80% level), so families are not ink-matched.
+- **Partial-contact result is unexplained.** Both models stay at 100% when 80% of the impression's length is removed. The remaining toe or heel fragment keeps its position on the canvas and may carry shoe-length information; this has not been tested.
+- **Shortcuts.** Crop geometry (93.75% on Handiprint), collection suffix (100% on blood), shoe size and brightness all predict the class. Aspect-preserving resizing keeps outsole shape visible. A successful nuisance baseline shows the information is available; it does not show which features the CNN uses.
+- **Collection confounding in the blood data.** Because the collection suffix alone predicts the class perfectly, within-blood accuracy cannot be attributed to tread pattern. The Handiprint-to-blood transfer result (71.88%) is the more informative blood-stage number.
+- **Different crop workflows.** Blood training crops were manually reviewed regions of interest; validation and test crops were prepared by a separate workflow.
+- **Inferred identities.** Seven pair identities are inferred from metadata rather than verified: 9, 70, 76, 79, 114, 120 and 158. `tables/metrics.csv` reports results with and without them.
+- **Perfect scores.** 64/64 correct with a degenerate bootstrap interval does not imply perfect population performance.
+- **Archived Handiprint values.** The blood notebook reports the Handiprint severe-occlusion results from the Handiprint stage; the augmented Handiprint checkpoint was not transferred to blood.
+- **Reproducibility.** Images, weights and the split manifest are not in the repository, so the results cannot be reproduced from this repository alone.
