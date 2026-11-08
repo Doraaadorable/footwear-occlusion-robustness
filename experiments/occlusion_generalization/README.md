@@ -30,10 +30,14 @@ Every level is in [`outputs/metrics.csv`](outputs/metrics.csv) and [`outputs/pai
 2. **It does not transfer to differently shaped white occluders.** For blobs and stripes the gain is within about ±3 pp at every level, and the intervals include or touch zero. At 80% both models are close to chance.
 3. **It partly transfers to rectangle-shaped occluders of another colour.** Textured patches keep a +12 pp gain at 60–80%. Dark rectangles gain +7 to +9 pp at 40–60%, but both models are near chance at 80%. What the augmentation learned seems tied to the rectangle's shape more than to "missing tread" in general.
 4. **The augmentation makes the model less robust to heavy noise.** At noise sd 0.3 the augmented heads fall to 51.9% against 86.9% for the original. They label most noisy images Nike: the mean Nike score for Adidas impressions is 0.77, against 0.40 for the original heads.
-5. **A contiguous toe or heel fragment is enough for both models.** Removing 80% of the impression's length (about 83% of its ink) leaves both at 100%. This differs sharply from the rectangle results and needs follow-up. The fragment stays at its original position on the canvas, so it may carry shoe-length information (crop geometry alone reaches 93.75% on clean images).
+5. **A contiguous toe or heel fragment is enough for both models.** Removing 80% of the impression's length (about 83% of its ink) leaves both at 100%. This differs sharply from the rectangle results. The fragment stays at its original position on the canvas, so it may carry shoe-length information (crop geometry alone reaches 93.75% on clean images). A [follow-up](#follow-up-fragment-position) tests this.
 6. **The validation split shows the same pattern:** +40.6 pp for white rectangles at 80%, −11.3 pp for blobs, +16.9 pp for textured patches and −36.3 pp for noise sd 0.3.
 
 **Mask level is not ink removed.** At the same nominal level, rectangles remove more ink than the other shapes: about 91% of tread darkness at 80%, against 80–83% for blobs, stripes and partial contact (`outputs/mask_log_test.csv.gz`). The augmented model does worse on blobs than on rectangles despite losing less ink, which strengthens point 2.
+
+## Follow-up: fragment position
+
+**Status: notebook ready, not yet run.** [`Partial_Contact_Followup_Colab.ipynb`](Partial_Contact_Followup_Colab.ipynb) removes the same toe or heel rows as `partial_contact` (same random draws), then moves the remaining fragment to the centre of the canvas (`partial_contact_centered`) or to a random height (`partial_contact_shifted`). If accuracy stays near 100% after the move, the result reflects tread in the fragment; if it falls, the fragment's position (shoe length) was carrying information. The in-place family repeats the first run exactly, which serves as a consistency check.
 
 ## Limits
 
@@ -53,7 +57,9 @@ Every level is in [`outputs/metrics.csv`](outputs/metrics.csv) and [`outputs/pai
 | File | Contents |
 |---|---|
 | `occlusion_families.py` | Corruption families, pair bootstrap, evaluation loop (NumPy/SciPy) |
-| `Occlusion_Generalization_Colab.ipynb` | GPU notebook: locks the plan, re-runs the Handiprint stage, checks the 80% result, evaluates validation and test, packages outputs |
+| `Occlusion_Generalization_Colab.ipynb` | GPU notebook: sets up public inputs if missing, locks the plan, re-runs the Handiprint stage, checks the 80% result, evaluates validation and test, packages outputs |
+| `Partial_Contact_Followup_Colab.ipynb` | Same pipeline for the fragment-position follow-up |
+| `build_notebooks.py`, `notebook_cells.py` | Generate both notebooks from one source |
 | `make_figures.py` | Draws `assets/*.svg` from the outputs |
 | `outputs/` | Plan, metrics, paired differences, per-image predictions and mask logs (no images) |
 | `../../tests/test_occlusion_families.py` | Unit tests on synthetic images |

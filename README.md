@@ -44,7 +44,7 @@ All results are exploratory: the test pairs were examined before the occlusion e
 - **Handiprint:** 154 images from 77 shoe pairs after excluding pair 81 (unresolved in the image audit). Split: 45 / 16 / 16 pairs.
 - **Blood on tile:** 308 images from the same 77 pairs (180 train, 64 validation, 64 test images). These are related observations, not 308 independent shoes. Seven pair identities are inferred from metadata; results excluding them are in `tables/metrics.csv` (cohort `exclude_metadata_inferred`).
 
-Images, model weights and the prepared-input bundle are not in this repository. See [data access](docs/DATA_ACCESS.md) for the source dataset, the expected folder layout and how to run each stage.
+The canonical shoe-pair split is in [`splits/`](splits/split_manifest_final.csv). The Handiprint stage can be reproduced from public sources alone: `scripts/fetch_handiprint_images.py` downloads the scans and checks each against the split's SHA-256. Images, model weights and the blood-stage input bundle are not in this repository. See [data access](docs/DATA_ACCESS.md).
 
 ## Checks you can run without the data
 

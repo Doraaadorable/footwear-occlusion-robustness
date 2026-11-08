@@ -10,4 +10,6 @@ Any derivative-data distribution must carry the source attribution, dataset DOI,
 
 The eligible subset consists of 308 images from 77 pairs (180 training, 64 validation, 64 test), after exclusion of pair 81 under the original split. These are related observations, not 308 independent shoes.
 
-This notice concerns ShoeCase data. It does not grant a code license, relicense third-party model weights, or claim endorsement by the creators. The current repository release contains code, aggregate results and training receipts; no dataset or weights were added by this documentation update.
+`splits/split_manifest_final.csv` is derived from the ShoeCase metadata (file names, dates, shoe sizes and image hashes) with this project's pair audit and train/validation/test assignment added. It is shared under CC BY 4.0 with the attribution above.
+
+This notice concerns ShoeCase data. It does not grant a code license, relicense third-party model weights, or claim endorsement by the creators. The repository contains code, aggregate results, training receipts and the split manifest; it contains no images or model weights.

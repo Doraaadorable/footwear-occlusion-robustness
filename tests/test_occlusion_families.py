@@ -118,3 +118,27 @@ def test_evaluate_end_to_end_with_dummy_models():
     assert all(m["ci_low"] <= m["balanced_accuracy"] + 1e-9 for m in metrics)
     held = {m["family"]: m["held_out"] for m in metrics}
     assert held["rect_white"] is False and held["fade"] is True
+
+
+@pytest.mark.parametrize("family", list(of.FOLLOWUP_FAMILIES))
+def test_moved_fragment_matches_in_place_fragment(family):
+    """The moved fragment has exactly the pixels partial_contact keeps, from the same draw."""
+    canvas = synthetic_canvas()
+    top, left, bottom, right = BOX
+    for level in of.REMOVAL_LEVELS:
+        for draw in range(3):
+            base, base_info = of.apply_family(canvas, BOX, "partial_contact", level,
+                                              of.make_rng(42, "k", "partial_contact", level, draw))
+            moved, info = of.apply_family(canvas, BOX, family, level,
+                                          of.make_rng(42, "k", family, level, draw))
+            assert info["ink_coverage"] == pytest.approx(base_info["ink_coverage"])
+            kept_rows = [r for r in range(top, bottom)
+                         if not np.all(base[r, left:right] == 1.0) or np.array_equal(base[r, left:right], canvas[r, left:right])]
+            fragment = base[kept_rows[0]:kept_rows[-1] + 1, left:right]
+            y0 = info["fragment_top"]
+            np.testing.assert_array_equal(moved[y0:y0 + len(fragment), left:right], fragment)
+            outside = np.ones_like(moved, dtype=bool)
+            outside[y0:y0 + len(fragment), left:right] = False
+            assert np.all(moved[outside] == 1.0)
+            if family == "partial_contact_centered":
+                assert abs((y0 + len(fragment) / 2) - canvas.shape[0] / 2) <= 1

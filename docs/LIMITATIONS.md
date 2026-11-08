@@ -12,4 +12,4 @@
 - **Inferred identities.** Seven pair identities are inferred from metadata rather than verified: 9, 70, 76, 79, 114, 120 and 158. `tables/metrics.csv` reports results with and without them.
 - **Perfect scores.** 64/64 correct with a degenerate bootstrap interval does not imply perfect population performance.
 - **Archived Handiprint values.** The blood notebook reports the Handiprint severe-occlusion results from the Handiprint stage; the augmented Handiprint checkpoint was not transferred to blood.
-- **Reproducibility.** Images, weights and the split manifest are not in the repository, so the results cannot be reproduced from this repository alone.
+- **Reproducibility.** The Handiprint stage can be reproduced from public sources (split in `splits/`, scans from the ShoeCase record). The blood stage needs a prepared-input bundle that is not public, so it cannot be reproduced from this repository alone.

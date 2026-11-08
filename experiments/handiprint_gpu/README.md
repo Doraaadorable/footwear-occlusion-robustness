@@ -40,8 +40,8 @@ The uploaded result archive has 67 checksummed entries; all verified. The execut
 
 The public notebook has outputs cleared to avoid embedding image data and author paths. The original executed notebook, model binaries and full checksum manifest remain in the private result ZIP. Log paths are replaced by `<PROJECT_ROOT>` for publication; hashes of both original and published logs are recorded.
 
-## Reproduce with authorized source inputs
-The repository does not bundle TIFFs or model binaries. Obtain the ShoeCase Handiprint scans and `Handiprint_database.xlsx` under the [dataset license](../../docs/DATA_PROVENANCE.md), plus the canonical split manifest (kept by the author). Never draw a new split to replace the canonical file.
+## Reproduce from public sources
+The repository does not bundle TIFFs or model binaries. `python scripts/fetch_handiprint_images.py --project-root /path/to/YOUR_PROJECT` copies the canonical split manifest from [`splits/`](../../splits/split_manifest_final.csv) and downloads and verifies the ShoeCase scans and metadata (see [data access](../../docs/DATA_ACCESS.md) and the [dataset license](../../docs/DATA_PROVENANCE.md)). Never draw a new split to replace the canonical file.
 
 ```
 YOUR_PROJECT/

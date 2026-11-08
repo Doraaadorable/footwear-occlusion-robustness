@@ -1,13 +1,14 @@
-"""Download the Handiprint scans used in this study from the public ShoeCase record and verify them.
+"""Set up the Handiprint inputs from public sources and verify them.
 
-Only the scans listed in the canonical split manifest are extracted, and each one
-is checked against the SHA-256 recorded in that manifest.
+1. Copies the canonical split manifest from splits/ in this repository into
+   YOUR_PROJECT/data/ (checking its SHA-256).
+2. Downloads Handiprint_database.xlsx and Handiprint Images.zip from the public
+   ShoeCase record.
+3. Extracts only the scans listed in the manifest and checks each one against the
+   SHA-256 recorded there.
 
 Usage:
     python scripts/fetch_handiprint_images.py --project-root /path/to/YOUR_PROJECT
-
-YOUR_PROJECT/data/split_manifest_final.csv must already exist. Scans are written to
-YOUR_PROJECT/data/Handiprint_images/ at the paths given by the manifest's matched_path.
 """
 import argparse
 import csv
@@ -20,6 +21,9 @@ from pathlib import Path
 
 ARTICLE = "https://api.figshare.com/v2/articles/22814438/files?page_size=100"
 ZIP_NAME = "Handiprint Images.zip"
+METADATA_NAME = "Handiprint_database.xlsx"
+REPO_MANIFEST = Path(__file__).resolve().parents[1] / "splits" / "split_manifest_final.csv"
+MANIFEST_SHA256 = "20f942824a8c45c102837998cf2eb0b9f6d8cc9b243fa1ae87bef3db4f03d11d"
 USED_SPLITS = {"train", "val", "test"}
 
 
@@ -38,14 +42,33 @@ def main():
     args = parser.parse_args()
 
     data = args.project_root.resolve() / "data"
-    with open(data / "split_manifest_final.csv", newline="") as handle:
+    data.mkdir(parents=True, exist_ok=True)
+
+    manifest = data / "split_manifest_final.csv"
+    if not manifest.exists():
+        shutil.copyfile(REPO_MANIFEST, manifest)
+        print(f"Copied the canonical manifest to {manifest}")
+    if sha256(manifest) != MANIFEST_SHA256:
+        raise SystemExit(f"{manifest} is not the canonical split manifest (SHA-256 mismatch).")
+
+    files = None
+    if not (data / METADATA_NAME).exists():
+        with urllib.request.urlopen(ARTICLE) as response:
+            files = json.load(response)
+        url = next(f["download_url"] for f in files if f["name"] == METADATA_NAME)
+        with urllib.request.urlopen(url) as response, open(data / METADATA_NAME, "wb") as out:
+            shutil.copyfileobj(response, out)
+        print(f"Downloaded {METADATA_NAME}")
+
+    with open(manifest, newline="") as handle:
         rows = [r for r in csv.DictReader(handle) if r["split"] in USED_SPLITS]
     print(f"Scans listed in the manifest: {len(rows)}")
 
     zip_path = args.zip_path or data / ZIP_NAME
     if not zip_path.exists():
-        with urllib.request.urlopen(ARTICLE) as response:
-            files = json.load(response)
+        if files is None:
+            with urllib.request.urlopen(ARTICLE) as response:
+                files = json.load(response)
         url = next(f["download_url"] for f in files if f["name"] == ZIP_NAME)
         print(f"Downloading {ZIP_NAME} (about 2.1 GB) to {zip_path} ...")
         with urllib.request.urlopen(url) as response, open(zip_path, "wb") as out:
