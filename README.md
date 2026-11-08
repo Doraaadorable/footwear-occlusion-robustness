@@ -1,18 +1,33 @@
 # Footwear Occlusion Robustness
 
-A research project examining footwear-pattern classification under occlusion and cross-medium changes, using related ShoeCase Handiprint and synthetic-blood impressions.
+**Research focus:** How robust is footwear-impression classification when part of an impression is missing or the recording medium changes—and can collection artifacts explain high scores?
 
-## Research stages
+This two-stage study uses related [ShoeCase](https://doi.org/10.25380/iastate.22814438.v1) Handiprint and synthetic-blood impressions to examine **occlusion robustness, cross-medium transfer, and shortcut learning**. It compares two specific shoe styles (Adidas Seeley and Nike Zoom Winflo 4); it is **not** a general brand-recognition or forensic-identification system.
 
-1. **[Handiprint occlusion robustness: completed GPU reproduction](experiments/handiprint_gpu/)** — investigates performance degradation under simulated masking and tests an augmentation response. At 80% crop-area masking, original CNN BA is 53.75% versus 95.00% with occlusion augmentation (+41.25 percentage points; exploratory).
-2. **Synthetic-blood cross-medium extension** — the existing root notebook, tables and evidence investigate transfer and collection confounds. The current course submission integrates this stage with the Handiprint GPU stage in one notebook and report; the public repository presents their code and evidence separately.
+### Key findings at a glance
 
-The first stage provides a differentiated robustness curve; the second asks whether strong classification transfers across recording conditions and whether nuisance features offer competing explanations. The stages use related shoe pairs, not independent populations.
+| Investigation | Observed result | Interpretation |
+| --- | --- | --- |
+| **Severe occlusion (Handiprint)** | At 80% crop-area masking, original CNN balanced accuracy: **53.75%**; occlusion-augmented model: **95.00%** (**+41.25 percentage points**) | Exploratory evidence that augmentation improved robustness under the tested synthetic masking setup |
+| **Blood-on-tile classification** | Three blood-trained ResNet18 variants each classified **64/64** held-out images correctly | High performance on this particular, previously examined test set—not evidence of reliable generalization |
+| **Collection-artifact controls** | Collection-suffix baseline: **100%** balanced accuracy; area-and-brightness baseline: **79.69%** | Nuisance information can be predictive; perfect CNN accuracy alone does not establish tread-specific learning |
+| **Cross-medium transfer** | Original Handiprint model on blood impressions: **71.88%** balanced accuracy | A change in recording medium remains an important evaluation challenge |
 
-## Research question
-How does classification behave when impressions are partial or change recording medium, and how much can collection conditions explain apparently strong performance?
+**Main takeaway:** Accuracy is only part of the story. Pair-aware splitting, stress tests, and nuisance-feature baselines are necessary to interpret what a classifier may have learned. These are exploratory results from related shoe pairs with repeated test exposure, not confirmatory forensic evidence.
 
-The blood subset compares two specific shoe styles: Adidas Seeley and Nike Zoom Winflo 4. Results do not establish general brand recognition or forensic identification.
+### Explore the project
+
+- [Handiprint GPU experiment and robustness curve](experiments/handiprint_gpu/)
+- [Blood-stage result figure](assets/test_balanced_accuracy.svg) · [Full metrics](tables/metrics.csv) · [Experiment decision log](tables/experiment_decision_log.csv)
+- [Data access and reproducibility](docs/DATA_ACCESS.md) · [Limitations](docs/LIMITATIONS.md) · [Public verification checks](#public-verification-no-private-data-required)
+- [Integrated course-submission workflow](docs/INTEGRATED_SUBMISSION.md) (private package; not distributed here)
+
+### Research stages
+
+1. **Handiprint occlusion robustness:** completed GPU reproduction, masking-severity evaluation, and an occlusion-augmentation comparison. [Experiment details](experiments/handiprint_gpu/).
+2. **Synthetic-blood cross-medium extension:** frozen-feature ResNet18 variants and comparison baselines, with attention to collection confounds. The public repository separates the stages; the reviewed course submission integrates them.
+
+The two stages use **related shoe pairs, not independent populations**.
 
 ## Data and experimental design
 - 312 downloaded blood-on-tile images, representing 78 candidate shoe pairs rather than 312 independent shoes.
