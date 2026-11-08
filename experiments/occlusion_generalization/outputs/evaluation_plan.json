@@ -1,0 +1,53 @@
+{
+  "question": "Does the occlusion-augmentation benefit carry over to held-out occluder and degradation families?",
+  "families": {
+    "rect_white": "removal",
+    "blob_white": "removal",
+    "stripes_white": "removal",
+    "partial_contact": "removal",
+    "rect_dark": "removal",
+    "rect_texture": "removal",
+    "fade": "degradation",
+    "noise": "degradation",
+    "blur": "degradation"
+  },
+  "training_family": "rect_white",
+  "removal_levels": [
+    0.4,
+    0.6,
+    0.8
+  ],
+  "degradation_levels": {
+    "fade": [
+      0.5,
+      0.3,
+      0.15
+    ],
+    "noise": [
+      0.1,
+      0.2,
+      0.3
+    ],
+    "blur": [
+      1.0,
+      2.0,
+      4.0
+    ]
+  },
+  "draws_per_level": 5,
+  "mask_seed": 2026,
+  "bootstrap": {
+    "resamples": 2000,
+    "unit": "shoe pair within class",
+    "interval": "95% percentile"
+  },
+  "primary_estimate": "augmented minus original balanced accuracy, per family and level, on the test split",
+  "secondary": [
+    "validation split results",
+    "balanced accuracy versus realised ink coverage"
+  ],
+  "status": "exploratory: test pairs were examined in earlier work",
+  "repository_commit": "687f6f566f845e65943b24d488e502bf340b9f8f",
+  "module_sha256": "2a934af36e26f9133d7cceb9bddd535a6c7ae6ffb5dcec6bf6816d217429a43a",
+  "locked_at_utc": "20261108T233809Z"
+}

@@ -1,0 +1,32 @@
+{
+  "note": "Handiprint stage re-run inside the occlusion-generalisation notebook (Colab Tesla T4, 2026-11-08), compared with the published tables.",
+  "tables": {
+    "test_metrics.csv": {
+      "rows": 10,
+      "max_abs_numeric_difference": 0.0
+    },
+    "paired_model_differences.csv": {
+      "rows": 5,
+      "max_abs_numeric_difference": 0.0
+    },
+    "sensitivity_S1_shortcut_probes.csv": {
+      "rows": 3,
+      "max_abs_numeric_difference": 0.0
+    },
+    "sensitivity_S2_size_matched_cv.csv": {
+      "rows": 3,
+      "max_abs_numeric_difference": 0.0
+    },
+    "metrics_image_level.csv": {
+      "rows": 105,
+      "max_abs_numeric_difference": 0.0
+    },
+    "cnn_learning_curves.csv": {
+      "rows": 65,
+      "max_abs_numeric_difference": 1.3940864140860043e-07
+    }
+  },
+  "model_file_hashes_match_published": false,
+  "hash_difference_explanation": "Retrained head files differ byte-for-byte (torch 2.14.1 here vs 2.11.0 originally); learning curves differ by <1e-6 and every reported metric is identical.",
+  "images": "All 154 included Handiprint scans were re-downloaded from the public ShoeCase \"Handiprint Images.zip\" and matched the SHA-256 recorded in the canonical manifest (0 mismatches)."
+}

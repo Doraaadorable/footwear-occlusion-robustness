@@ -16,7 +16,15 @@ YOUR_PROJECT/
     Handiprint_images/           # paths must match matched_path in the manifest
 ```
 
-The canonical split manifest is kept by the author; the notebooks check its SHA-256 and never draw a new split. Run instructions:
+The canonical split manifest is kept by the author; the notebooks check its SHA-256 and never draw a new split. With the manifest in place, fetch and verify the scans from the public record:
+
+```bash
+python scripts/fetch_handiprint_images.py --project-root /path/to/YOUR_PROJECT
+```
+
+This downloads `Handiprint Images.zip` (about 2.1 GB), extracts only the 154 scans the study uses, and checks each against the SHA-256 in the manifest. On 8 November 2026 all 154 matched.
+
+Run instructions:
 
 - Handiprint stage: [experiments/handiprint_gpu/README.md](../experiments/handiprint_gpu/README.md)
 - Held-out occlusion families: [experiments/occlusion_generalization/README.md](../experiments/occlusion_generalization/README.md)

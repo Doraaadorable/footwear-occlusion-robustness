@@ -1,0 +1,28 @@
+{
+  "plan_sha256": "6b553301b5dea317623f3852985e89ba94a872a02158f34e1e7c4bb446805891",
+  "model_source": {
+    "source": "retrained in this run",
+    "hash_matches_published": {
+      "models/resnet18_selected_frozen_backbone_seed0.pt": false,
+      "models/resnet18_selected_frozen_backbone_seed1.pt": false,
+      "models/resnet18_selected_frozen_backbone_seed2.pt": false,
+      "extension/occlusion_head_seed0.pt": false,
+      "extension/occlusion_head_seed1.pt": false,
+      "extension/occlusion_head_seed2.pt": false
+    },
+    "sanity_check_80pct": {
+      "recomputed": {
+        "original": 0.5375,
+        "occlusion_augmented": 0.95
+      },
+      "published": {
+        "original": 0.5375,
+        "occlusion_augmented": 0.95
+      }
+    }
+  },
+  "n_test_images": 32,
+  "n_test_pairs": 16,
+  "n_val_images": 32,
+  "n_val_pairs": 16
+}

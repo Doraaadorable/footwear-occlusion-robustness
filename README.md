@@ -8,12 +8,15 @@ I study this with the public [ShoeCase](https://doi.org/10.25380/iastate.2281443
 
 | Investigation | Result (test set: 16 shoe pairs) | What it does and does not show |
 | --- | --- | --- |
-| **Severe synthetic occlusion** (Handiprint) | With 80% of the impression box masked, balanced accuracy is **53.75%** for the original CNN and **95.00%** for a CNN trained with occlusion augmentation (gain +41.25 pp, 95% pair-bootstrap CI 35.6–46.9) | Augmentation helps against **the same white-rectangle masks it was trained on**. Whether it helps against other occluders is tested in [occlusion generalisation](experiments/occlusion_generalization/) (results pending). |
+| **Severe synthetic occlusion** (Handiprint) | With 80% of the impression box masked by white rectangles, balanced accuracy is **53.75%** for the original CNN and **95.00%** for a CNN trained with occlusion augmentation (gain +41.25 pp, 95% pair-bootstrap CI 35.6–46.9) | Augmentation helps against **the same white-rectangle masks it was trained on**. |
+| **Held-out occluders** (Handiprint) | Against irregular blobs or stripes the gain disappears (80% blobs: −3.1 pp, CI −9.4 to 3.7). Textured rectangles keep a partial gain (+11.9 pp at 80%). Under heavy noise the augmented model is **worse** (51.9% vs 86.9%, −35.0 pp) | The augmentation benefit is specific to rectangle-shaped occluders; it is not general occlusion robustness. [Details](experiments/occlusion_generalization/) |
 | **Cross-medium transfer** | The Handiprint model scores **71.88%** on blood impressions (Nike recall 43.75%) | A change of recording medium causes a large drop. This is the most informative transfer result in the project. |
 | **Blood-trained models** | RGB, grayscale and occlusion-augmented heads each classify **64/64** test images correctly | Not evidence of tread recognition: see the next row. |
 | **Shortcut controls** | A baseline using only the filename collection suffix scores **100%**; crop geometry alone scores 93.75% on Handiprint; area + brightness scores 79.69% on blood | Collection conditions and shoe shape predict the class, so high accuracy alone cannot be attributed to tread pattern. |
 
-All results are exploratory: the test pairs were examined before the occlusion extension was designed.
+All results are exploratory: the test pairs were examined before the occlusion extensions were designed.
+
+![Gain from occlusion augmentation by corruption family](experiments/occlusion_generalization/assets/gain_by_family.svg)
 
 ## Approach
 
@@ -29,7 +32,7 @@ All results are exploratory: the test pairs were examined before the occlusion e
 | Path | Contents |
 | --- | --- |
 | [`experiments/handiprint_gpu/`](experiments/handiprint_gpu/) | Handiprint stage: preprocessing, pair split, models, severe-occlusion extension, shortcut probes, GPU run evidence |
-| [`experiments/occlusion_generalization/`](experiments/occlusion_generalization/) | Held-out occluder families (blobs, stripes, partial contact, dark and textured patches, fading, noise, blur) for the Handiprint models. Colab notebook ready; not yet run. |
+| [`experiments/occlusion_generalization/`](experiments/occlusion_generalization/) | Held-out occluder and degradation families (blobs, stripes, partial contact, dark and textured patches, fading, noise, blur) for the Handiprint models, with results, figures and the Colab notebook |
 | [`notebooks/blood_stage.ipynb`](notebooks/blood_stage.ipynb) | Blood-on-tile stage: transfer, blood-trained heads, shortcut controls |
 | [`tables/`](tables/) | Blood-stage metrics, confusion counts, paired differences and the [experiment decision log](tables/experiment_decision_log.csv) |
 | [`evidence/`](evidence/) | Blood-stage GPU retraining receipts |
@@ -61,12 +64,12 @@ python -m pytest tests/
 
 ## Reproducibility record
 
-- **Handiprint stage:** run end to end on a Tesla T4 (23 code cells). Ten extension metrics and five paired intervals were recomputed from saved predictions. See [the stage README](experiments/handiprint_gpu/).
+- **Handiprint stage:** run end to end on a Tesla T4 (23 code cells). On 8 November 2026 it was retrained from scratch inside the occlusion-generalisation notebook. All 154 scans, re-downloaded from the public dataset, matched the manifest's SHA-256. The published test metrics, paired differences and shortcut-probe tables were reproduced exactly ([comparison](experiments/occlusion_generalization/outputs/handiprint_rerun_comparison.json)). See [the stage README](experiments/handiprint_gpu/).
 - **Blood stage:** on 27 October 2026 all 12 heads were retrained on a Tesla T4. The validation losses and model SHA-256 values matched the saved models exactly ([receipts](evidence/reproduction_check/)). That run used the notebook as of commit `89df652`; later edits removed the report-generation code, simplified input-folder detection and rewrote text cells; the data-locking, training and analysis cells are unchanged.
 
 ## Limitations
 
-Two shoe styles; 16 test pairs (8 per class); test pairs viewed before later experiments; synthetic masks that do not reproduce real crime-scene occlusion; collection conditions confounded with class in the blood data. Details: [docs/LIMITATIONS.md](docs/LIMITATIONS.md).
+Two shoe styles; 16 test pairs (8 per class); test pairs viewed before later experiments; synthetic corruptions that do not reproduce real crime-scene occlusion; an augmentation benefit that does not generalise beyond rectangle-shaped occluders; collection conditions confounded with class in the blood data. Details: [docs/LIMITATIONS.md](docs/LIMITATIONS.md).
 
 ## Dataset citation and license
 
