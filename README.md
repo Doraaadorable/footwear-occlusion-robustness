@@ -57,9 +57,23 @@ The final bundle adapter was independently exercised on the real prepared data u
 - Completed additionally: [Handiprint GPU reproduction](experiments/handiprint_gpu/), including severe-mask results and occlusion-augmented heads.
 - Not implemented: a new **blood-stage** occlusion-strength scan, unfreezing comparison or Grad-CAM study.
 
-## Checks
+## Public verification (no private data required)
 
-Run `python scripts/check_notebook.py` and `python scripts/check_evidence.py` for dependency-free syntax and evidence checks. These do not train models or substitute for real-data reproduction. The public notebook has outputs removed; the private course submission retains executed outputs and the full report.
+From the repository root, run the following checks with Python 3. These use standard-library modules only and do **not** require installing the ML dependencies:
+
+```bash
+python scripts/check_notebook.py
+python scripts/check_evidence.py
+python scripts/check_handiprint_gpu.py
+```
+
+| Check | What it verifies | What it does not verify |
+| --- | --- | --- |
+| `check_notebook.py` | Public blood-stage notebook code parses and code-cell outputs are cleared | Notebook execution, data availability, or model accuracy |
+| `check_evidence.py` | Published blood-stage training receipts and validation-loss comparison metadata agree | Fresh training, binary checkpoint integrity, or independent test performance |
+| `check_handiprint_gpu.py` | Published Handiprint metadata, paired-difference table arithmetic, and public notebook syntax/output hygiene | Fresh GPU execution, source-data identity, or generalization |
+
+The published receipt checks use assertions over archived records, not cryptographic verification of unavailable model binaries. The private course submission retains executed outputs and the full report. To rerun the underlying experiments, follow [data access](docs/DATA_ACCESS.md) and the [Handiprint GPU stage](experiments/handiprint_gpu/); CUDA and the authorized inputs are required for the latter.
 
 ## Dataset attribution
 Dataset: Tibben, Carriquiry & McGuire (2023), *ShoeCase: A data set of mock crime scene footwear impressions*, https://doi.org/10.25380/iastate.22814438.v1.
