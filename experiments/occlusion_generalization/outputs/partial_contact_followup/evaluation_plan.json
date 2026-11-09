@@ -1,0 +1,47 @@
+{
+  "question": "Does accuracy on partial-contact impressions depend on where the remaining fragment sits on the canvas?",
+  "families": {
+    "partial_contact": "removal",
+    "partial_contact_centered": "removal",
+    "partial_contact_shifted": "removal"
+  },
+  "training_family": "rect_white",
+  "removal_levels": [
+    0.4,
+    0.6,
+    0.8
+  ],
+  "degradation_levels": {
+    "fade": [
+      0.5,
+      0.3,
+      0.15
+    ],
+    "noise": [
+      0.1,
+      0.2,
+      0.3
+    ],
+    "blur": [
+      1.0,
+      2.0,
+      4.0
+    ]
+  },
+  "draws_per_level": 5,
+  "mask_seed": 2026,
+  "bootstrap": {
+    "resamples": 2000,
+    "unit": "shoe pair within class",
+    "interval": "95% percentile"
+  },
+  "primary_estimate": "balanced accuracy of each model for centered and shifted fragments compared with in-place fragments, per level, on the test split",
+  "secondary": [
+    "validation split results",
+    "balanced accuracy versus realised ink coverage"
+  ],
+  "status": "exploratory: test pairs were examined in earlier work",
+  "repository_commit": "b00388e62673d8cb7968b296ca8cb1999b881865",
+  "module_sha256": "b15e50252a738afdca818e058580cfa74aa8bb118d027412c8582248a76b5335",
+  "locked_at_utc": "20261109T000442Z"
+}
