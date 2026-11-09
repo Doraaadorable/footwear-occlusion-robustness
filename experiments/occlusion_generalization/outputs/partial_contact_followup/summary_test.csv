@@ -1,0 +1,11 @@
+family,level,occlusion_augmented,original,held_out,gain_pp,ci_pp
+clean,0.0,100.0,100.0,False,0.0,"[0.0, 0.0]"
+partial_contact,0.4,100.0,100.0,True,0.0,"[0.0, 0.0]"
+partial_contact,0.6,100.0,100.0,True,0.0,"[0.0, 0.0]"
+partial_contact,0.8,100.0,100.0,True,0.0,"[0.0, 0.0]"
+partial_contact_centered,0.4,100.0,100.0,True,0.0,"[0.0, 0.0]"
+partial_contact_centered,0.6,100.0,100.0,True,0.0,"[0.0, 0.0]"
+partial_contact_centered,0.8,100.0,100.0,True,0.0,"[0.0, 0.0]"
+partial_contact_shifted,0.4,100.0,100.0,True,0.0,"[0.0, 0.0]"
+partial_contact_shifted,0.6,100.0,100.0,True,0.0,"[0.0, 0.0]"
+partial_contact_shifted,0.8,100.0,99.4,True,0.6,"[0.0, 1.9]"
