@@ -41,15 +41,28 @@ FAMILIES = {
 }
 TRAINING_FAMILY = "rect_white"
 
+# Follow-up (planned after the first run): does the partial-contact result depend on
+# where the remaining toe/heel fragment sits on the canvas? Both variants remove the
+# same rows as partial_contact (same random draw), then move the fragment.
+FOLLOWUP_FAMILIES = {
+    "partial_contact_centered": "removal",   # fragment moved to the canvas centre
+    "partial_contact_shifted": "removal",    # fragment moved to a random height
+}
+ALL_FAMILIES = {**FAMILIES, **FOLLOWUP_FAMILIES}
+# Families that share another family's random draws, so masks can be compared directly.
+RNG_FAMILY = {"partial_contact_centered": "partial_contact",
+              "partial_contact_shifted": "partial_contact"}
+
 
 def levels_for(family):
-    if FAMILIES[family] == "removal":
+    if ALL_FAMILIES[family] == "removal":
         return REMOVAL_LEVELS
     return DEGRADATION_LEVELS[family]
 
 
 def make_rng(seed, key, family, level, draw):
     """Seeded per image, family, level and draw so both models see the same mask."""
+    family = RNG_FAMILY.get(family, family)
     return np.random.default_rng([
         int(seed),
         zlib.crc32(str(key).encode()),
@@ -133,7 +146,21 @@ def apply_family(canvas, box, family, level, rng):
     info = {"family": family, "level": float(level),
             "area_fraction": 0.0, "ink_coverage": 0.0}
 
-    if FAMILIES[family] == "removal":
+    if family in FOLLOWUP_FAMILIES:
+        mask = _partial_contact(box, float(level), rng)
+        info["area_fraction"] = float(mask.mean())
+        info["ink_coverage"] = float(ink[mask].sum() / max(total_ink, 1e-6))
+        kept = np.flatnonzero(~mask[:, 0])
+        fragment = sub[kept[0]:kept[-1] + 1].copy()
+        x[top:bottom, left:right] = 1.0
+        height = x.shape[0] - len(fragment)
+        if family == "partial_contact_centered":
+            y0 = height // 2
+        else:
+            y0 = int(rng.integers(0, height + 1))
+        x[y0:y0 + len(fragment), left:right] = fragment
+        info["fragment_top"] = int(y0)
+    elif ALL_FAMILIES[family] == "removal":
         mask = _MASKS[family](box, float(level), rng)
         info["area_fraction"] = float(mask.mean())
         info["ink_coverage"] = float(ink[mask].sum() / max(total_ink, 1e-6))
@@ -248,6 +275,9 @@ def evaluate(models_by_name, score_fn, canvases, boxes, keys, y, pair_ids,
     ``score_fn(models, images)`` returns one Nike probability per image.
     """
     families = list(FAMILIES) if families is None else list(families)
+    unknown = set(families) - set(ALL_FAMILIES)
+    if unknown:
+        raise KeyError(f"Unknown families: {sorted(unknown)}")
     weights = pair_bootstrap_weights(pair_ids, y, n_boot, seed + 1)
     metric_rows, diff_rows, pred_rows, mask_rows = [], [], [], []
 

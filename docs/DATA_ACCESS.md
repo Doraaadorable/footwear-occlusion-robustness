@@ -2,11 +2,17 @@
 
 Source dataset: Tibben, Carriquiry & McGuire (2023), *ShoeCase*, https://doi.org/10.25380/iastate.22814438.v1 (CC BY 4.0; see [DATA_PROVENANCE.md](DATA_PROVENANCE.md)).
 
-This repository contains code, aggregate result tables and run receipts. It does not contain images, model weights or the canonical split manifest.
+This repository contains code, aggregate result tables, run receipts and the canonical shoe-pair split ([`splits/split_manifest_final.csv`](../splits/split_manifest_final.csv)). It does not contain images or model weights.
 
 ## Handiprint stage and occlusion generalisation
 
-Download the Handiprint scans and `Handiprint_database.xlsx` from the dataset record, and arrange them as:
+The Handiprint stage can be reproduced entirely from public sources. One command sets up the inputs:
+
+```bash
+python scripts/fetch_handiprint_images.py --project-root /path/to/YOUR_PROJECT
+```
+
+It copies the split manifest from `splits/` (checking its SHA-256), downloads `Handiprint_database.xlsx` and `Handiprint Images.zip` (about 2.1 GB) from the dataset record, extracts only the 154 scans the study uses, and checks each against the SHA-256 in the manifest. On 8 November 2026 all 154 matched. The result is:
 
 ```
 YOUR_PROJECT/
@@ -16,13 +22,7 @@ YOUR_PROJECT/
     Handiprint_images/           # paths must match matched_path in the manifest
 ```
 
-The canonical split manifest is kept by the author; the notebooks check its SHA-256 and never draw a new split. With the manifest in place, fetch and verify the scans from the public record:
-
-```bash
-python scripts/fetch_handiprint_images.py --project-root /path/to/YOUR_PROJECT
-```
-
-This downloads `Handiprint Images.zip` (about 2.1 GB), extracts only the 154 scans the study uses, and checks each against the SHA-256 in the manifest. On 8 November 2026 all 154 matched.
+The notebooks check the manifest's SHA-256 and never draw a new split. The Colab notebooks in `experiments/occlusion_generalization/` run this setup automatically when inputs are missing.
 
 Run instructions:
 
