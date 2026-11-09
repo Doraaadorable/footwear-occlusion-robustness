@@ -2,7 +2,7 @@
 
 **Question:** the occlusion-augmented Handiprint heads gained +41 percentage points at 80% masking, but they were trained and tested with the same white-rectangle generator. Does that benefit carry over to occluders and degradations they never saw?
 
-**Answer (exploratory, 16 test pairs):** mostly no. The gain is specific to rectangle-shaped occluders. It vanishes for irregular blobs and stripes, and the augmented model is much *less* robust to heavy noise.
+**Answer:** mostly no. The gain is specific to rectangle-shaped occluders. It vanishes for irregular blobs and stripes, and the augmented model is much *less* robust to heavy noise.
 
 ![Paired gain by corruption family](assets/gain_by_family.svg)
 
@@ -51,23 +51,23 @@ Every level is in [`outputs/metrics.csv`](outputs/metrics.csv) and [`outputs/pai
 
 Moving the fragment does not lower accuracy, and confidence barely changes: the mean probability given to the true class at 80% is 0.87 / 0.90 / 0.90 (original, in place / centred / random) and 0.95 / 0.94 / 0.96 (augmented). On the validation split, the only drop is the augmented model on centred fragments at 80% (94.4%, CI 88.1–100). **Conclusion: fragment position is not the cue.** A contiguous toe or heel region carries enough pattern information on its own.
 
-This also sharpens the main result. At the 80% level, blobs and stripes remove slightly less ink than partial contact (about 80–82% against 83%), yet they bring both models close to chance, while partial contact leaves them at 100%. What hurts these models seems to be how the remaining tread is broken up, not just how much is removed. This is an interpretation from synthetic masks; it has not been tested directly.
+This sharpens the main result. At the 80% level, blobs and stripes remove slightly less ink than partial contact (about 80–82% against 83%), yet they bring both models close to chance, while partial contact leaves them at 100%. What hurts these models appears to be how the remaining tread is broken up, more than how much is removed. A direct test would vary fragmentation at fixed ink loss.
 
 Checks: the in-place family reproduced the main run's 960 test predictions exactly (largest score difference 0.0), and the 80% white-rectangle sanity check again gave 53.75% / 95.00%. Outputs: [`outputs/partial_contact_followup/`](outputs/partial_contact_followup/).
 
-Caveat: the fragment's width is unchanged, so any width-related size cue remains in all three conditions.
+The fragment's width was not changed, so width-based size cues remain possible.
 
 ## Limits
 
-- Exploratory: these 16 test pairs were examined in earlier work. The families and levels were fixed in [`outputs/evaluation_plan.json`](outputs/evaluation_plan.json) before this run, and every family is reported.
-- 8 pairs per class; intervals reflect pair resampling with mask draws held fixed.
-- All corruptions are synthetic. None reproduces real crime-scene conditions.
+- The 16 test pairs were used in earlier experiments. The families and levels were fixed in [`outputs/evaluation_plan.json`](outputs/evaluation_plan.json) before this run, and every family is reported.
+- 8 pairs per class; intervals resample pairs with the mask draws held fixed.
+- All corruptions are simulated.
 
 ## Reproducibility
 
-- **Run:** Colab Tesla T4, 8 November 2026, with the [notebook](Occlusion_Generalization_Colab.ipynb) on branch `portfolio-cleanup-occlusion-eval`.
+- **Run:** Colab Tesla T4, 8 November 2026, with the [notebook](Occlusion_Generalization_Colab.ipynb).
 - **Same data:** all 154 Handiprint scans were re-downloaded from the public ShoeCase `Handiprint Images.zip`, and each one matched the SHA-256 in the canonical split manifest.
-- **Same models:** the notebook retrained the Handiprint stage from scratch. The published test metrics, paired differences and shortcut-probe tables were reproduced exactly, and the learning curves differ by less than 1e-6 ([comparison](outputs/handiprint_rerun_comparison.json)). The retrained weight files differ byte-for-byte from the published ones (PyTorch 2.14.1 here, 2.11.0 originally), but they give identical predictions on every reported test.
+- **Same models:** the notebook retrained the Handiprint stage from scratch. The published test metrics, paired differences and shortcut-probe tables were reproduced exactly, and the learning curves differ by less than 1e-6 ([comparison](outputs/handiprint_rerun_comparison.json)). The weight files differ byte-for-byte from the published ones (PyTorch 2.14.1 against 2.11.0) and give identical predictions on every reported test.
 - **Figures:** `python make_figures.py` redraws them from the CSV outputs.
 
 ## Files

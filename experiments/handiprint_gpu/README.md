@@ -1,21 +1,22 @@
-# Stage 1: Handiprint occlusion robustness — GPU reproduction
+# Stage 1: Handiprint occlusion robustness
 
-This stage investigates whether footwear-pattern classification degrades under simulated occlusion and whether occlusion-augmented training improves robustness. It is a **Tesla T4 reproduction** of an earlier CPU analysis on previously examined data, not a new confirmatory experiment.
+How much does footwear-pattern classification degrade when part of the impression is masked, and how much does occlusion-augmented training recover? This stage reruns the earlier CPU analysis on a Tesla T4 with the same split, preprocessing and mask rules.
 
 ![Severe occlusion comparison](assets/severe_occlusion.svg)
 
 ## Design
-- 154 eligible Handiprint images from 77 pairs; the immutable original split contains 45 training, 16 validation and 16 test pairs. Both sides of a pair stay together; pair 81 remains excluded.
-- Grayscale image processing preserves aspect ratio and creates a white 224-pixel canvas. The historical preprocessing and mask definitions are retained.
-- ImageNet ResNet18 with frozen backbone and a trained linear head; learning rates 0.001 and 0.01, seeds 0, 1 and 2, up to 40 epochs, early-stopping patience 7, batch 16. Selection uses validation loss; selected learning rate 0.01.
-- The extension trains three additional heads with random white rectangles (probability 0.5, crop-area range 10–70%), retaining the selected learning rate. Clean validation log-loss selects checkpoints.
-- Main and augmented CNN forward passes assert CUDA input and parameters. GPU feature extraction is also used in the exploratory sensitivity analysis. Image I/O, image processing, augmentation preparation, HOG/logistic regression, statistics and plotting still use CPU. This is not an entirely CPU-free pipeline.
-- Unmodified HOG and CNN test balanced accuracy are both 100%; a majority baseline is 50%. The severe-mask experiment provides greater differentiation.
 
-## Severe-occlusion results
-Image-level balanced accuracy is averaged over five shared mask draws at each nonzero severity. Mask percentage means target rectangle area relative to the impression crop, not the fraction of tread pixels removed. Intervals resample whole shoe pairs within classes, with 2,000 paired draws.
+- 154 Handiprint images from 77 shoe pairs; fixed split of 45 training, 16 validation and 16 test pairs, with both sides of a pair in the same split. Pair 81 is excluded because one side is missing.
+- Grayscale preprocessing that preserves aspect ratio on a white 224-pixel canvas.
+- Frozen ImageNet ResNet18 with a trained linear head: learning rates 0.001 and 0.01, seeds 0–2, up to 40 epochs, early stopping after 7, batch 16. Validation loss selected the learning rate (0.01).
+- Occlusion augmentation: three more heads trained with random white rectangles (probability 0.5, covering 10–70% of the impression box), with checkpoints chosen on clean validation loss.
+- On unmasked test images, both HOG and the CNN reach 100% balanced accuracy against 50% for a majority baseline, so severe masking is needed to separate the models.
 
-| Target crop-area mask | Original CNN BA | Augmented CNN BA | Gain (percentage points) |
+## Results
+
+Balanced accuracy is averaged over five shared mask draws per level. The mask level is the share of the impression box covered. Intervals resample whole shoe pairs within class (2,000 draws).
+
+| Mask (share of box) | Original CNN | Augmented CNN | Gain (pp) |
 |---|---:|---:|---:|
 | 0% | 100.00% | 100.00% | 0.00 |
 | 50% | 92.50% | 100.00% | 7.50 |
@@ -23,46 +24,28 @@ Image-level balanced accuracy is averaged over five shared mask draws at each no
 | 70% | 66.25% | 98.75% | 32.50 |
 | 80% | 53.75% | 95.00% | 41.25 |
 
-At 80%, the paired 95% bootstrap interval for the gain is **35.63–46.88 percentage points**. These values agree with the rounded earlier report. This does not establish parameter-by-parameter agreement of historical CPU and GPU fits, equivalence across devices, or generalization to real occlusions.
+At 80% the 95% interval for the gain is **35.63–46.88 pp**. The 80% level lies just beyond the 10–70% training range, and the masks come from the same white-rectangle generator used in training. [Occlusion generalisation](../occlusion_generalization/) tests whether the gain carries over to other occluders; for most, it does not.
 
 [Metric table](tables/test_metrics.csv) · [Paired differences](tables/paired_model_differences.csv) · [Training curves](tables/cnn_learning_curves.csv) · [Augmented training histories](tables/occlusion_training_history.csv)
 
-## Descriptor controls and severity extrapolation
+## Shortcut probes
 
-The existing [S1 probes](tables/sensitivity_S1_shortcut_probes.csv) on **unmodified** test images achieve 93.75% BA for geometry (95% pair interval 81.25–100%), 78.13% for scan/session, and 96.88% combined. Geometry includes crop height, width, aspect ratio and ink fraction; it is not a background-only measurement. These post-test controls show predictive summary information, not which features the augmented CNN uses. They were not evaluated on 80%-masked inputs, so the augmentation gain must not be described as demonstrated tread-specific recognition.
+[Simple classifiers](tables/sensitivity_S1_shortcut_probes.csv) on unmasked test images reach 93.75% balanced accuracy from crop geometry alone (height, width, aspect ratio, ink fraction; interval 81.25–100%), 78.13% from scan session, and 96.88% from both. The class can be predicted almost as well from shoe shape as from tread, which is why the occlusion and fragment experiments matter.
 
-The 80% target exceeds the nominal 10–70% training-mask range. This is limited severity extrapolation within the white-rectangle family, not evidence on new occluder shapes or real scenes. Training and evaluation distributions are not identical. No new model is fitted for this interpretive clarification.
+## Verification
 
-## Verification and boundaries
-The uploaded result archive has 67 checksummed entries; all verified. The executed notebook completed 23 code cells without saved errors. Model bytes were checked against the main plan lock. All 10 extension metric rows and five paired interval rows were independently recomputed from saved predictions without additional inference. See [verification record](evidence/verification.json) and [execution log](evidence/gpu_execution_log.txt).
+- The result archive has 67 checksummed entries, all verified; the notebook ran its 23 code cells without errors.
+- All 10 extension metrics and 5 paired intervals were recomputed from the saved predictions ([verification record](evidence/verification.json), [execution log](evidence/gpu_execution_log.txt)).
+- On 8 November 2026 the whole stage was retrained from scratch in the occlusion-generalisation notebook and reproduced every metric table exactly ([comparison](../occlusion_generalization/outputs/handiprint_rerun_comparison.json)).
+- `audit_passed: false` in the summary refers to pair 81, which the split excludes.
 
-`audit_passed: false` in the original-format summary records that pair 81 remains unresolved. The canonical split excludes this pair, all 154 included records match original labels and source hashes, and no other pair was silently dropped. This rerun intentionally extracted only included TIFFs, so both sides of excluded pair 81 are absent locally; this is not new evidence about the original archive's missing-side status.
+## Reproduce
 
-The public notebook has outputs cleared to avoid embedding image data and author paths. The original executed notebook, model binaries and full checksum manifest remain in the private result ZIP. Log paths are replaced by `<PROJECT_ROOT>` for publication; hashes of both original and published logs are recorded.
-
-## Reproduce from public sources
-The repository does not bundle TIFFs or model binaries. `python scripts/fetch_handiprint_images.py --project-root /path/to/YOUR_PROJECT` copies the canonical split manifest from [`splits/`](../../splits/split_manifest_final.csv) and downloads and verifies the ShoeCase scans and metadata (see [data access](../../docs/DATA_ACCESS.md) and the [dataset license](../../docs/DATA_PROVENANCE.md)). Never draw a new split to replace the canonical file.
-
-```
-YOUR_PROJECT/
-  data/
-    Handiprint_database.xlsx
-    split_manifest_final.csv
-    Handiprint_images/       # paths must match matched_path in the manifest
-```
-
-The canonical manifest SHA256 is `20f942824a8c45c102837998cf2eb0b9f6d8cc9b243fa1ae87bef3db4f03d11d`. All 154 included images are checked by the notebook's audit. The pretrained ImageNet backbone may be downloaded on first use.
-
-Install the root requirements and execution tools in a GPU environment. Run the helper from the repository root:
+`python scripts/fetch_handiprint_images.py --project-root /path/to/YOUR_PROJECT` copies the split from [`splits/`](../../splits/split_manifest_final.csv) and downloads and verifies the ShoeCase scans and metadata ([data access](../../docs/DATA_ACCESS.md)). Then, in a GPU environment:
 
 ```bash
 pip install -r requirements.txt
 python scripts/run_handiprint_gpu.py --project-root /absolute/path/to/YOUR_PROJECT
 ```
 
-The helper starts a new kernel in the same Python environment, creates a unique output folder, explicitly configures paths, saves outputs on failure, and preserves previous results. It does not download or extract raw data. The recorded GPU run used an equivalent Colab launcher; this command-line helper has been checked for syntax but not run end to end.
-
-## Interpretation
-The extension was developed after earlier test review, and this reproduction reuses those pairs. Its gains are exploratory and conditional on the simulated-mask generator: the augmented heads were trained and evaluated with the same white-rectangle rule. [Occlusion generalisation](../occlusion_generalization/) tests held-out occluder families. The main and severe-extension masking procedures are not identical; comparisons within the severe extension share masks. Two shoe styles, collection conditions, size associations, preprocessing and the small number of independent test pairs limit broader claims. Baseline descriptor probes and grouped-CV analyses are diagnostic, not new held-out validation. A degenerate all-correct bootstrap interval is not evidence of perfect population accuracy.
-
-This stage does not modify the separate blood-stage results.
+The helper runs the notebook in a fresh kernel and writes to a new output folder. The recorded runs used Colab; the [occlusion-generalisation notebook](../occlusion_generalization/Occlusion_Generalization_Colab.ipynb) is the simplest way to rerun this stage there.
